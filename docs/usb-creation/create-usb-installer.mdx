@@ -1,0 +1,91 @@
+---
+title: Tạo usb bộ cài macOS
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+:::info
+Trong bài viết này, tôi sẽ hướng dẫn làm usb bộ cài macOS offline trên Windows hoặc macOS, không như guide Dortania làm bộ cài online, tức là boot vào recovery xong, lúc cài đặt thì mới bắt đầu tải xuống các file cần thiết, ở việt nam thì cách này không phù hợp và dễ lỗi!
+:::
+
+## Download Installer
+
+Chọn phiên bản macOS bạn muốn cài đặt:
+
+| macOS               | Link             |
+| ------------------- | ---------------- |
+| High Sierra 10.13.6 | [Google Drive](#) |
+| Mojave 10.14.6      | [Google Drive](#) |
+| Catalina 10.15.7    | [Google Drive](#) |
+| Big Sur 11.6        | [Google Drive](#) |
+| Monterey 12.2       | [Google Drive](#) |
+
+## Ghi bộ cài vào USB
+
+Sử dụng Etcher để ghi file bộ cài đuôi **.dmg** vào usb
+
+![etcher](/img/docs/usb-creation/etcher.png)
+
+## Chép EFI vào ESP
+
+:::info
+Mặc định ESP (EFI System Partition) sẽ bị ẩn đi, cần phải mount nó ra mới có thể chỉnh sửa
+:::
+
+Chọn EFI phù hợp với máy tính của bạn:
+
+
+### Trong Windows
+
+1. Mount ESP
+
++ Cài đặt [**Minitool Partition Wizzard** Free Edition](https://www.partitionwizard.com/free-partition-manager.html) và mở phần mềm
+   
+   <Tabs>
+    <TabItem value="change-letter" label="1. Change Letter" default>
+      <img src="/img/docs/usb-creation/pw-change-letter.png" />
+    </TabItem>
+    <TabItem value="choose-letter" label="2. Choose Letter">
+      <img src="/img/docs/usb-creation/pw-choose-letter.png" />
+    </TabItem>
+    <TabItem value="apply" label="3. Apply">
+      <img src="/img/docs/usb-creation/pw-apply.png" />
+    </TabItem>
+   </Tabs>
+
+2. Truy cập và chỉnh sửa ESP
+
++ Trong Windows 8/10/11, không thể dùng File Explorer để truy cập vào ESP, thay vào đó cần sử dụng [**Explorer++**](https://explorerplusplus.com/)
+
+   <Tabs>
+    <TabItem value="run-admin" label="1. Run as administrator" default>
+      <img src="/img/docs/usb-creation/epp-run-admin.jpg" />
+    </TabItem>
+    <TabItem value="accesss" label="2. Truy cập ESP">
+      <img src="/img/docs/usb-creation/epp-esp.png" />
+    </TabItem>
+    <TabItem value="copy" label="3. Copy EFI vào ESP">
+      <img src="/img/docs/usb-creation/epp-efi.png" />
+    </TabItem>
+   </Tabs>
+
+
+### Trong macOS
+
+- Có rất nhiều tool có thể mount EFI trong macOS: Hackintool, OpenCore Configurator, Clover Configurator, EFI Mounter Pro, ...
+- Để nhỏ gọn và tiện nhất thì tôi chọn [**EFI Agent**](https://github.com/headkaze/EFI-Agent/releases) được làm bởi [hadekaze](https://github.com/headkaze) (tác giả của hackintool)
+
+    <Tabs>
+      <TabItem value="efi-agent" label="1. Mount and Open" default>
+        <img src="/img/docs/usb-creation/efi-agent.jpg" />
+      </TabItem>
+      <TabItem value="copy" label="2. Copy EFI vào ESP">
+        <img src="/img/docs/usb-creation/finder-esp.jpg" />
+      </TabItem>
+    </Tabs>
+
+  :::warning
+  - Nếu trong ESP đã có sẵn EFI thì bạn hãy xoá sạch sau đó mới copy vào, không merge
+  - Sử dụng copy/patse không kéo thả file vào
+  :::
