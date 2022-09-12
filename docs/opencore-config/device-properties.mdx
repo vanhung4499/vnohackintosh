@@ -1,0 +1,589 @@
+---
+title: Device Properties
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+:::info
+Cấu hình thiết bị được cung cấp cho macOS thông qua các bộ đệm chuyên dụng để thiết lập các thuộc tính của thiết bị PCI, chẳng hạn như các bản vá Intel HD Graphics, layout-id cho card audio, v.v.
+:::
+
+:::tip
+Thông thường ở phần này ta thêm các bản vá cho card đồ hoạ onboard, card audio hoặc là card Ethernet.
+:::
+
+## Tìm đường dẫn PCI của thiết bị
+
+Đường dẫn PCI (PCI Path) của các thiết bị khác nhau là khác nhau.
+
+Trong macOS, bạn có thể sử dụng **Hackintool** để xem thông tin đường dẫn cụ thể:
+![hackintool](/img/docs/opencore-config/hkt-pcie.png)
+
+Trong Windows, có một tool khá hay để có thể xem pci path là [OCSysInfo](https://github.com/KernelWanderers/OCSysInfo):
+
+![](/img/docs/opencore-config/infodump.png)
+
+## Chỉnh sửa Device Properties
+
+Cách chỉnh sửa DP đơn giản như sau:
+
+1. Thêm PCI Path của thiết bị
+2. Thêm hoặc sửa các key-value cần thiết
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-dp.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-dp.png" />
+  </TabItem>
+</Tabs>
+
+:::danger
+Lưu ý chọn đúng **Value Type**, rất dễ quên chuyển đổi giữa DATA (kiểu số) và STRING (kiểu chuỗi)
+:::
+
+## Thiết bị cần phải biết
+
+Có 2 device quan trọng cần phải tiêm thêm các giá trị:
+### Audio
+
++ PCI Path: 
+  + Trước Skylake: **PciRoot(0x0)/Pci(0x1B,0x0)**
+  + Sau Skylake: **PciRoot(0x0)/Pci(0x1F,0x3)**
++ Properties:
+  + **layout-id**
+    + Dùng cho AppleALC tiêm các dữ liệu vào AppleHDA để kích hoạt âm thanh
+    + Tham khảo [danh sách thiết bị được AppleALC hỗ trợ](https://github.com/acidanthera/AppleALC/wiki/Supported-codecs)
+
+### Intel HD Graphic
+
++ PCI Path: **PciRoot(0x0)/Pci(0x2,0x0)**
++ Properties:
+  + **AAPL,ig-platform-id**
+    + Được macOS sử dụng để xác định cách trình điều khiển iGPU tương tác với phần cứng
+  + + **AAPL,snb-platform-id**
+    + như ig-platform-id nhưng chỉ dùng cho Sandy Bridge (2xxx)
+  + **device-id**
+    + Giải quyết một số vấn đề bất thường về trình điều khiển và cải thiện khả năng tương thích
+  + **framebuffer-patch-enable**
+    + Kích hoạt bản vá thông qua WhateverGreen.kext
+    + Chỉ dùng cho iGPU, không thêm thuộc tính này thì các bản vá sau vô nghĩa
+  + **framebuffer-stolenmem**
+    + Đặt stolenmem tối thiểu cho iGPU
+    + Dùng khi BIOS không cho phép tăng `DVMT Pre-Allocated` lên **64MB**
+  + **framebuffer-fbmem**
+    + Đặt kích thước fbmem cho iGPU
+    + Dùng khi BIOS không cho phép tăng `DVMT Pre-Allocated` lên **64MB**
+
+:::info
+Trên đa số mainboard PC thì trong BIOS Setup cho phép sửa `DVMT Pre-Allocated`, nhưng trên đa số laptop (trừ ASUS) và các máy PC đồng bộ (DELL, HP, LENOVO,..) thì không có thiết lập này. Nếu vậy cần phải thêm các thuộc tính như sau:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+| framebuffer-fbmem        | Data | `00009000` |
+
+:::
+
+:::tip
++ Việc tiêm layout-id trong Device Properties có thể được thay thế bằng boot arugment sau `alcid=xx`, trong đó xx là layout-id bạn muốn thêm vào, rất đơn giản và thuận tiện. 
++ Trong hướng dẫn này, tôi sẽ dùng theo cách trên cho phần audio nên phần dưới không đề cập đến nữa, tập trung vào Intel HD Graphic.
+:::
+
+## Intel Desktop
+
+### Sandy Bridge
+
+![](/img/docs/opencore-config/dp-snb-desktop.png)
+
++ **PciRoot(0x0)/Pci(0x2,0x0)**
+
+| AAPL,snb-platform-id | Giải thích                                                                  |
+| :------------------- | :-------------------------------------------------------------------------- |
+| **`10000300`**       | iGPU được sử dụng để xuất hình ảnh                                          |
+| **`00000500`**       | iGPU chỉ được sử dụng để tính toán, không xuất hình (dùng khi có card rời） |
+
+| device-id      | Giải thích                                                                  |
+| :------------- | :-------------------------------------------------------------------------- |
+| **`26010000`** | iGPU được sử dụng để xuất hình ảnh                                          |
+| **`02010000`** | iGPU chỉ được sử dụng để tính toán, không xuất hình (dùng khi có card rời） |
+
++ **PciRoot(0x0)/Pci(0x16,0x0)**
+  - Sandy Bridge CPU trên để sử dụng với mainboard 7 series (VD: B75, Q75, Z75, H77, Q77, Z77)
+  - Giả mạo thiết bị IMEI để được hỗ trợ
+  - Thuộc tính này vẫn được yêu cầu bất kể SSDT-IMEI có được sử dụng hay không
+
+| Key       | Type | Value          |
+| :-------- | :--- | :------------- |
+| device-id | Data | **`3A1C0000`** |
+
+> Điều này không bắt buộc cho mainboard 6 series（VD H61, B65, Q65, P67, H67, Q67, Z68)
+
+Dưới đây là ví dụ về cấu hình cuối cùng cho HD 3000 dành cho PC:
+
+| Key                  | Type | Value          |
+| :------------------- | :--- | :------------- |
+| AAPL,snb-platform-id | Data | **`00000500`** |
+| device-id            | Data | **`26010000`** |
+
+### Ivy Bridge
+
+![](/img/docs/opencore-config/dp-snb-desktop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,ig-platform-id | Giải thích                                                                  |
+| :------------------ | :-------------------------------------------------------------------------- |
+| **`0A006601`**      | iGPU được sử dụng để xuất hình ảnh                                          |
+| **`07006201`**      | iGPU chỉ được sử dụng để tính toán, không xuất hình (dùng khi có card rời） |
+
+Đối với HD 4000 trên PC, dùng AAPL,ig-platform-id sau `0A006601`
+
+- **PciRoot(0x0)/Pci(0x16,0x0)**
+  - Dành cho Ivy Bridge CPU trên mainboard 6 series（VD H61, B65, Q65, P67, H67, Q67, Z68)
+  - Giả mạo thiết bị IMEI để được hỗ trợ
+  - Thuộc tính này vẫn được yêu cầu bất kể SSDT-IMEI có được sử dụng hay không
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `3A1E0000` |
+
+> Điều này không bắt buộc cho mainboard 7 series（VD: B75, Q75, Z75, H77, Q77, Z77)
+
+### Haswell
+
+![](/img/docs/opencore-config/dp-hsw-desktop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,ig-platform-id | Giải thích                                                                |
+| :------------------ | :------------------------------------------------------------------------ |
+| **`0300220D`**      | iGPU được sử dụng để xuất hình ảnh                                        |
+| **`04001204`**      | iGPU chỉ được sử dụng để tính toán, không xuất hình (dùng khi có card rời |
+| **`07002216`**      | Một id khác có thể được dùng khi iGPU đuợc dùng để xuất hình              |
+
+| device-id  | Giải thích     |
+| :--------- | :------------- |
+| `12040000` | ID của HD 4600 |
+
+Dưới đây là ví dụ về cấu hình cho HD 4400:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `0300220D` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+| framebuffer-fbmem        | Data | `00009000` |
+| device-id                | Data | `12040000` |
+
+
+Dưới đây là ví dụ về cấu hình cho Iris Pro 6200:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `07002216` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+| framebuffer-fbmem        | Data | `00009000` |
+
+### Skylake
+
+![](/img/docs/opencore-config/dp-skl-desktop.png)
+
+
+-  **PciRoot(0x0)/Pci(0x2,0x0)**
+
+| AAPL,ig-platform-id | Giải thích                                                                  |
+| :------------------ | :-------------------------------------------------------------------------- |
+| **`00001219`**      | iGPU được sử dụng để xuất hình ảnh                                          |
+| **`01001219`**      | iGPU chỉ được sử dụng để tính toán, không xuất hình (dùng khi có card rời） |
+
+HD P530 (trên một số cpu xeon) không được hỗ trợ một cách chính thống từ Apple，nên bạn cần thêm fake nó về loại igpu được hỗ trợ, cụ thể là HD 530 bằng cách thêm thuộc tính sau:
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `1B190000` |
+
+Dưới đây là ví dụ về cấu hình cho HD P530:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `00001219` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+| framebuffer-fbmem        | Data | `00009000` |
+| device-id                | Data | `1B190000` |
+
+Còn đối với HD 530 thì cấu hình như sau:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `00001219` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+| framebuffer-fbmem        | Data | `00009000` |
+
+### Kaby Lake
+
+![](/img/docs/opencore-config/dp-kbl-desktop.png)
+
+-  **PciRoot(0x0)/Pci(0x2,0x0)**
+
+| AAPL,ig-platform-id | Giải thích                                                                 |
+| :------------------ | :------------------------------------------------------------------------- |
+| **`00001259`**      | iGPU được sử dụng để xuất hình ảnh                                         |
+| **`03001259`**      | iGPU chỉ được sử dụng để tính toán, không xuất hình (dùng khi có card rời) |
+
+Sau đây là cấu hình cho HD 630:
+
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `00001259` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+### Coffee Lake
+
+![](/img/docs/opencore-config/dp-cfl-desktop.png)
+
+-  **PciRoot(0x0)/Pci(0x2,0x0)**
+
+| AAPL,ig-platform-id | Giải thích                                                                  |
+| :------------------ | :-------------------------------------------------------------------------- |
+| **`07009B3E`**      | iGPU được sử dụng để xuất hình ảnh                                          |
+| **`00009B3E`**      | Khi dùng`07009B3E` mà không xuất được hình，đây là một lựa chọn thay thế    |
+| **`0300913E`**      | iGPU chỉ được sử dụng để tính toán, không xuất hình (dùng khi có card rời） |
+
+Sau đây là cấu hình cho UHD 630:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `07009B3E` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+:::danger
+Một số mainboad 300 series dùng UHD630 thường không xuất hình ra được, bị đen màn, thì cấu hình như trên là chưa đủ, sẽ cần phải cấu hình thêm cho các connector, vui lòng tham khảo thêm [iGPU Black Screen](/docs/post-install/igpu-output)
+:::
+
+### Comet Lake
+
+![](/img/docs/opencore-config/dp-cml-desktop.png)
+
+-  **PciRoot(0x0)/Pci(0x2,0x0)**
+
+| AAPL,ig-platform-id | Giải thích                                                                  |
+| :------------------ | :-------------------------------------------------------------------------- |
+| **`07009B3E`**      | iGPU được sử dụng để xuất hình ảnh                                          |
+| **`00009B3E`**      | Khi dùng`07009B3E` mà không xuất được hình，đây là một lựa chọn thay thế    |
+| **`0300C89B`**      | iGPU chỉ được sử dụng để tính toán, không xuất hình (dùng khi có card rời） |
+
+Sau đây là cấu hình cho UHD 630:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `07009B3E` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+:::danger
+Cũng như mainboard 300 series, một số mainboad 400 series cũng sẽ gặp tình trạng không xuất hình ra được vì đều dùng UHD 630, vui lòng tham khảo thêm [iGPU Black Screen](/docs/post-install/igpu-output)
+:::
+
+## Intel Laptop
+
+### Sandy Bridge
+
+![](/img/docs/opencore-config/dp-snb-laptop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,snb-platform-id | Type   | Giải thích    |
+| -------------------- | ------ | ------------- |
+| **`00000100`**       | Laptop | Cho laptop    |
+| **`10000300`**       | NUC    | Cho Intel NUC |
+
+- **PciRoot(0x0)/Pci(0x16,0x0)**
+  - Khi dùng Sandy Bridge CPU (2xxx) trên mainboard Ivy Bridge (Hx7x)
+  - Giả mạo thiết bị IMEI để được hỗ trợ
+  - Thuộc tính này vẫn được yêu cầu bất kể SSDT-IMEI có được sử dụng hay không
+  - Bạn có thể dùng AIDA64 để xem thông tin cpu và mainboad chipset
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `3A1C0000` |
+
+### Ivy Bridge
+
+![](/img/docs/opencore-config/dp-ivb-laptop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,ig-platform-id | Type   | Giải thích                                                                                     |
+| ------------------- | ------ | ---------------------------------------------------------------------------------------------- |
+| **`03006601`**      | Laptop | Cho màn hình độ phân giải HD 1366*768                                                          |
+| **`04006601`**      | Laptop | Cho màn hình độ phân giải HD+ 1600*900                                                         |
+| **`09006601`**      | Laptop | Nếu hai ID trên không hoạt động, bạn có thể thử nó, chủ yếu để sử dụng với một số màn hình eDP |
+| **`0B006601`**      | NUC    | Được đề xuất cho Intel NUC                                                                     |
+
+Nếu dùng ig-platform-id `04006601` tức cho màn HD+ thì phải thêm các thuộc tính sau để có thể xuất ra màn hình rời: (Cảm ơn Rehabman)
+
+| Key                        | Type   | Value                                                                              |
+| :------------------------- | :----- | :--------------------------------------------------------------------------------- |
+| `framebuffer-patch-enable` | Number | `1`                                                                                |
+| `framebuffer-memorycount`  | Number | `2`                                                                                |
+| `framebuffer-pipecount`    | Number | `2`                                                                                |
+| `framebuffer-portcount`    | Number | `4`                                                                                |
+| `framebuffer-stolenmem`    | Data   | `00000004`                                                                         |
+| `framebuffer-con1-enable`  | Number | `1`                                                                                |
+| `framebuffer-con1-alldata` | Data   | `02050000 00040000 07040000 03040000 00040000 81000000 04060000 00040000 81000000` |
+
+:::info
+Nếu bạn muốn hiểu ý nghĩa của các thuộc tính trên vui lòng đọc [iGPU Output](/docs/../../post-install/igpu-output)
+:::
+
+- **PciRoot(0x0)/Pci(0x16,0x0)**
+  - Khi dùng Sandy Bridge CPU (3xxx) trên mainboard Ivy Bridge (Hx6x)
+  - Giả mạo thiết bị IMEI để được hỗ trợ
+  - Thuộc tính này vẫn được yêu cầu bất kể SSDT-IMEI có được sử dụng hay không
+  - Bạn có thể dùng AIDA64 để xem thông tin cpu và mainboad chipset
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `3A1E0000` |
+
+### Haswell
+
+![](/img/docs/opencore-config/dp-hsw-laptop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,ig-platform-id | Type   | Giải thích                                                             |
+| ------------------- | ------ | ---------------------------------------------------------------------- |
+| **`0500260A`**      | Laptop | Dành cho HD 5000, HD 5100 và HD 5200                                   |
+| **`0600260A`**      | Laptop | Dành cho HD 4200, HD 4400 và HD 4600, bắt buộc fake device-id          |
+| **`0300220D`**      | NUC    | Thường dùng cho Haswell NUC，HD 4200/4400/4600 bắt buộc fake device-id |
+
+Và thêm một thuộc tính đặc biệt tăng kích thước cursor lên 9MB thay vì 6MB để tránh lỗi xé hình：
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-cursormem    | Data | `00009000` |
+
+Đối với HD 4200, HD 4400 and HD 4600 cần fake device-id như sau：
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `12040000` |
+
+Sau đây là cấu hình HD 4400 hoặc HD 4600 cho laptop:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `0600260A` |
+| device-id                | Data | `12040000` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-cursormem    | Data | `00009000` |
+| framebuffer-fbmem        | Data | `00009000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+### Broadwell
+
+![](/img/docs/opencore-config/dp-bdw-laptop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,ig-platform-id | Type   | Giải thích                   |
+| ------------------- | ------ | ---------------------------- |
+| **`06002616`**      | Laptop | Dành cho hầu hết igpu laptop |
+| **`02001616`**      | NUC    | Dành cho Broadwell NUC       |
+
+Nếu iGPU là HD 5600 thì cần phải fake device-id：
+
+| Key       | Type | Value    |
+| :-------- | :--- | :------- |
+| device-id | data | 26160000 |
+
+Cấu hình cho HD 5500 thường gặp trên laptop:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `06002616` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-fbmem        | Data | `00009000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+### Skylake
+
+![](/img/docs/opencore-config/dp-skl-laptop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,ig-platform-id | Type   | Giải thích                                                          |
+| ------------------- | ------ | ------------------------------------------------------------------- |
+| **`00001619`**      | Laptop | Khuyến nghị sử dụng cho 515, HD 520, HD 530, HD 540, HD 550 và P530 |
+| **`00001E19`**      | Laptop | Thử id này nếu id trên không hoạt động                              |
+| **`00001B19`**      | Laptop | Dành cho HD 510                                                     |
+| **`00001E19`**      | NUC    | Dành cho HD 515                                                     |
+| **`02001619`**      | NUC    | Dành cho HD 520/530                                                 |
+| **`02002619`**      | NUC    | Dành cho HD 540/550                                                 |
+| **`05003B19`**      | NUC    | Dành cho HD 580                                                     |
+
+Dành cho HD 510 trên một số CPU Intel Core M，cần phải fake device-id：
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `02190000` |
+
+Dành cho HD 550, P530, cũng cần phải fake device-id：
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `16190000` |
+
+Cấu hình cho HD 520, HD530 thường dùng cho laptop:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `00001B19` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-fbmem        | Data | `00009000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+### Kaby Lake, Kaby Lake R
+
+![](/img/docs/opencore-config/dp-kbl-laptop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,ig-platform-id | Type   | Giải thích                                                                        |
+| ------------------- | ------ | ------------------------------------------------------------------------------- |
+| **`00001B59`**      | Laptop | Khuyến nghị cho HD 615, HD 620, HD 630, HD 640 and HD 650                       |
+| **`00001659`**      | Laptop | Thay thế cho `00001B59` nếu gặp lỗi，khuyến nghị cho HD 620 và UHD 620 trên NUC |
+| **`0000C087`**      | Laptop | Khuyến nghị cho Amber Lake UHD 617 và Kaby Lake-R UHD 620                       |
+| **`00001E59`**      | NUC    | Khuyến nghị cho HD 615                                                          |
+| **`00001B59`**      | NUC    | Khuyến nghị cho HD 630                                                          |
+| **`02002659`**      | NUC    | Khuyến nghị cho HD 640/650                                                      |
+
+Dành cho UHD 620 (Kaby Lake-R)，cần phải fake device-id：
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `16590000` |
+
+Cấu hình cho HD 620, UHD 620 thường dùng cho laptop:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `00001B59` |
+| device-id                | Data | `16590000` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-fbmem        | Data | `00009000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+Cấu hình cho HD 630 thường dùng cho laptop:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `00001B59` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-fbmem        | Data | `00009000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+
+### Coffee Lake, Whisky Lake
+
+![](/img/docs/opencore-config/dp-cfl-laptop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,ig-platform-id | Type   | Giải thích             |
+| ------------------- | ------ | -------------------- |
+| **`0900A53E`**      | Laptop | Khuyến nghị cho UHD 630      |
+| **`00009B3E`**      | Laptop | Khuyến nghị cho UHD 620      |
+| **`07009B3E`**      | NUC    | Khuyến nghị cho UHD 620/630  |
+| **`0000A53E`**      | NUC    | Khuyến nghị cho UHD 655      |
+
+Coffee Lake UHD 630 (8xxxH) thường không cần phải device-id, nhưng nếu cần hãy dùng：
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `9B3E0000` |
+
+UHD 620 trên Whisky Lake CPU (8x65U) cần phải fake device-id:
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `9B3E0000` |
+
+Cấu hình cho UHD 630, UHD 620 thường dùng cho laptop:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `00009B3E` |
+| device-id                | Data | `9B3E0000` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-fbmem        | Data | `00009000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+### Coffee Lake Plus, Comet Lake
+
+![](/img/docs/opencore-config/dp-cfl-laptop.png)
+
+- **PciRoot(0x0)/Pci(0x2,0x0)**
+
+Chọn ig-platform-id phù hợp trong bảng sau:
+
+| AAPL,ig-platform-id | Type   | Giải thích             |
+| ------------------- | ------ | -------------------- |
+| **`0900A53E`**      | Laptop | Khuyến nghị cho UHD 630      |
+| **`00009B3E`**      | Laptop | Khuyến nghị cho UHD 620      |
+| **`07009B3E`**      | NUC    | Khuyến nghị cho UHD 620/630  |
+| **`0000A53E`**      | NUC    | Khuyến nghị cho UHD 655      |
+
+UHD 630 trên Coffee Lake Plus (9xxxH) và UHD Graphics trên Comet Lake (10xxxU, 10xxxH) cần phải device-id:
+
+| Key       | Type | Value      |
+| :-------- | :--- | :--------- |
+| device-id | Data | `9B3E0000` |
+
+Cấu hình cho UHD Graphics thường dùng cho laptop:
+
+| Key                      | Type | Value      |
+| :----------------------- | :--- | :--------- |
+| AAPL,ig-platform-id      | Data | `00009B3E` |
+| device-id                | Data | `9B3E0000` |
+| framebuffer-patch-enable | Data | `01000000` |
+| framebuffer-fbmem        | Data | `00009000` |
+| framebuffer-stolenmem    | Data | `00003001` |
+
+## Intel HEDT
+
+**Dòng CPU cao cấp không có iGPU, không cần cấu hình nên bỏ qua phần này!**
+
+## AMD Desktop
+
+**iGPU trong AMD CPU hay gọi là APU không dùng được nên cũng không cần cấu hình, bỏ qua phần này!**

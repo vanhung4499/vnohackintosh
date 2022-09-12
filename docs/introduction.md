@@ -22,7 +22,7 @@ Hiểu đơn giản, Hackintosh là quá trình cài đặt macOS lên phần c�
 
 + Giúp bạn có thể cài đặt được macOS lên PC/Laptop
 + Tự tạo được EFI phù hợp cho máy của bạn
-+ Bạn có đủ kiến thức cơ bản về hackintosh để giúp đỡ những người chơi khác hoặc hiểu được họ đang nói gì!
++ Bạn có đủ kiến thức cơ bản về hackintosh để có thể giúp đỡ những người chơi khác hoặc hiểu được họ đang nói gì!
 
 ## Tại sao lại có hướng dẫn này?
 
@@ -32,7 +32,7 @@ Vào năm 2018, tôi có viết một blog hướng dẫn hackintosh cũng khá 
 
 + Được viết hoàn toàn bằng tiếng Việt dành cho người Việt
 + Rút gọn các kiến thức không cần thiết để tránh việc choáng ngợp cho người mới
-+ Ngắn gọn, dễ hiểu, không đề cập sâu đến các kiến thức chuyên ngành quá sâu
++ Ngắn gọn, dễ hiểu, không đề cập sâu đến các kiến thức chuyên ngành
 
 ## Cộng đồng VNOHackintosh
 

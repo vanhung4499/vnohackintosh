@@ -1,0 +1,117 @@
+---
+title: ACPI
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+:::tip
+Thông qua việc chuẩn bị trong phần trước, SSDT cần thiết đã được tải. Tại thời điểm này, ta cần điều chỉnh Quirks. Một số SSDT cần các bản patch để có hiệu lực. Để biết chi tiết về patch ACPI, vui lòng tham khảo phần Nâng cao về ACPI.
+:::
+
+:::info
+Phần ACPI chủ yếu cấu hình các phần về chỉnh sửa acpi gốc của mainboard, gồm các thao tác thêm xoá sửa các bảng trong ACPI. Các quirk cũng chỉ là các shorcut cho việc chỉnh sửa.
+:::
+
+## Add
+
+Mặc định file **Config.plist** đã chép chứa rất nhiều mục không cần thiết, đầu tiên là phải xoá nó đi
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-acpi-orig.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-acpi-orig.png" />
+  </TabItem>
+</Tabs>
+
+Trong phần chuẩn bị, bạn đã tải được các ssdt cần thiết cho cấu hình máy. Việc cần làm là thêm chúng vào phần Add này:
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-acpi-add.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-acpi-add.png" />
+  </TabItem>
+</Tabs>
+
+
+## Delete
+
+Ngăn chặn việc load các bảng ACPI, hiểu đơn giản là bảng ACPI nào có trong danh sách này là không được load.
+Sẽ rất ít khi phải động tới phần Delete này, kể cả ở các nhóm chức năng khác, nên không cần quan tâm nhiều.
+
+## Patch
+
+Phần này cho phép chúng ta sửa đổi nóng (hotpatch) các phần của ACPI (DSDT, SSDT, v.v.) thông qua OpenCore. Các bản patch sẵn sẽ được cung cấp sau. Việc hotpatch của OC sẽ áp dụng cho cả Windows và Linux nên hãy hạn chế dùng nó ít nhất có thể, còn đối với Clover thì ngược lại, bạn có thể dùng thoải mái.
+
+## Quirks
+
+Trong đa số trường hợp thì tôi để trống phần này tức ko bật quirk nào cả nên tôi sẽ giải thích sơ qua về chức năng, nên dùng hay không.
+
+- **FadtEnableReset**
+  - Sửa lỗi restart và shutdown trên phần cứng cũ hơn, không nên bật trừ khi cần thiết
+  - Một số laptop mới hơn cũng có thể cần để sửa lỗi restart và shutdown không được
+- **NormalizeHeaders**
+  - Xóa các ACPI Headers, thường dùng cho macOS 10.13
+  - Các phiên bản sau 10.14 đã khắc phục lỗi này
+- **RebaseRegions**
+  - Cố gắng định vị lại các vùng bộ nhớ ACPI một cách tạm thời, phải được bật khi sử dụng DSDT tùy chỉnh
+- **ResetHwSig**
+  - Đối với phần cứng không thể duy trì chữ ký phần cứng trong khi restart và gây ra sự cố tự động wake sau khi sleep
+- **ResetLogoStatus**
+  - Cần bật khi không thể hiển thị logo OEM Windows trên hệ thống có bảng BGRT
+- **SyncTableIds**
+  - Giải quyết các vấn đề cấp phép trong hệ điều hành Windows cũ hơn gây ra bởi bảng vá lỗi không tương thích với bảng SLIC.
+
+## Intel Desktop
+
+### Sandy Bridge, Ivy Bridge
+
+ACPI của Sandy Bridge và Ivy Bridge cần phải xoá 2 bảng **CpuPm** và **Cpu0Ist**, bằng cách thêm chúng vào **Delete** như sau:
+
+![](/img/docs/opencore-config/occ-acpi-del.png)
+
+May mắn thay, file **Config.plist** đi có sẵn những thứ này, bạn chỉ cần tích vào "Enable"
+
+Không cần phải điều chỉnh Quirks, chỉ cần giữ nguyên giá trị mặc định trong **Config.plist**.
+
+### Haswell, Broadwell, Skylake, Kaby Lake, Coffee Lake, Comet Lake, Tiger Lake, Alder Lake
+
+Không cần phải điều chỉnh Quirks, chỉ cần giữ nguyên giá trị mặc định trong **Config.plist**.
+
+## Intel HEDT
+
+### Sandy Bridge-E, Ivy Bridge-E
+
+Cần phải xoá 2 bảng **CpuPm** và **Cpu0Ist** như hướng dẫn sau: 
+
+![](/img/docs/opencore-config/occ-acpi-del.png)
+
+### Haswell-E, Broadwell-E, Skylake-X/W, Cascade Lake-X/W
+
+Không cần phải điều chỉnh Quirks, chỉ cần giữ nguyên giá trị mặc định trong **Config.plist**.
+
+## Intel Laptop
+
+### Sandy Bridge, Ivy Bridge
+
+Sandy Bridge IGPU (HD3000) chỉ được hỗ trợ tới macOS 10.13, từ macOS 10.14 kext cho HD3000 đã bị loại bỏ, các laptop này thường không hỗ trợ UEFI.
+
+Cần phải xoá 2 bảng **CpuPm** và **Cpu0Ist** như hướng dẫn sau: 
+
+![](/img/docs/opencore-config/occ-acpi-del.png)
+
+Không cần phải điều chỉnh Quirks, chỉ cần giữ nguyên giá trị mặc định trong **Config.plist**.
+
+### Haswell, Broadwell, Skylake, Kaby Lake, Coffee Lake, Whiskey Lake, Coffee Lake Plus, Comet Lake, Icelake
+
+Không cần phải điều chỉnh Quirks, chỉ cần giữ nguyên giá trị mặc định trong **Config.plist**.
+
+## AMD
+
+### Bulldozer(15h), Jaguar(16h), Ryzen, Threadripper(17h and 19h)
+
+Không cần phải điều chỉnh Quirks, chỉ cần giữ nguyên giá trị mặc định trong **Config.plist**.

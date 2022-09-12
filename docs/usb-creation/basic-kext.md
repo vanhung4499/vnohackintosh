@@ -1,5 +1,5 @@
 ---
-title: Chuẩn bị kext cơ bản
+title: Tìm hiểu về kext
 ---
 
 ## Khái niệm cơ bản

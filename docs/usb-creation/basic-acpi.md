@@ -1,5 +1,5 @@
 ---
-title: ACPI cơ bản
+title: Sơ qua về ACPI
 ---
 
 :::info

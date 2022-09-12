@@ -125,7 +125,7 @@ Ngoài ra một số driver sau bạn cũng nên biết để làm màu cho màn
 
 Chứa các Kexts ở định dạng tệp .kext. Hướng dẫn cơ bản về các Kext, vui lòng chuyển đến [bài viết sau](/docs/usb-creation/basic-kext). Các bạn cần chọn các kext phù hợp với cấu hình máy và cho chúng vào đây.
 
-### Resources
+### OC/Resources
 
 Mặc định thư mục này rỗng, bạn có thể tải xuống các bộ theme khác nhau, và cho vào đây.
 
@@ -133,9 +133,19 @@ Bộ theme cơ sở, bạn có thể tải xuống từ [OcBinaryData](https://g
 
 ![oc-theme](/img/docs/usb-creation/oc-theme.png)
 
-### Tools
+### OC/Tools
 
 Trong thư mục này có sẵn khá nhiều tool nhưng cũng rất ít khi bạn động tới chúng, bạn không cần quan tâm tới chúng.
 
 ![oc-tools](/img/docs/usb-creation/oc-tools.png)
+
+### OC/Config.plist
+
+:::info
+Bạn sẽ chép file **Sample.plist** trong thư mục Docs tới EFI/OC và đổi tên nó thành **Config.plist**
+:::
+
+Đây là file chứa thông tin cấu hình của OpenCore, OC sẽ dự trên nó mà chạy. Hiểu đơn giản là nó cấu hình OC, nên bật chức năng nào, nên tắt chức năng nào, sửa dữ liệu thế nào, nạp kext nào, driver nào, ...
+
+Nhiệm vụ chỉnh sửa config này sẽ khá dài, vui lòng đọc tiếp các phần sau.
 

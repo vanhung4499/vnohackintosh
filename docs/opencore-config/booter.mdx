@@ -1,0 +1,219 @@
+---
+title: Booter
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+:::tip
+Phần này chỉ cần tập trung chỉnh các qurik, các phần khác cực kì ít dùng!
+:::
+
+Phần này cho phép các loại sửa đổi UEFI khác nhau được áp dụng cho bộ nạp khởi động của hệ điều hành, chủ yếu là bộ nạp khởi động của Apple (boot.efi) thông qua **OpenRuntime.efi**. Một số tính năng này ban đầu được triển khai như một phần của **AptioMemoryFix.efi** trước đây (không còn được duy trì).
+
+## MmioWhitelist
+Phần này cho phép các khoảng trắng được chuyển qua macOS thường bị bỏ qua, hữu ích khi được ghép nối với **DevirtualiseMmio**
+
+Gần như không dùng, chỉ có một patch nhỏ cho một số laptop icelake để tránh stuck, sẽ đề cập sau.
+
+## Quirks
+
+:::info
+Vì các phiên bản OC sẽ thay đổi, khi tôi viết hướng dẫn này phiên bản OC được dùng là **0.8.2**, nếu bạn không thấy quirk nào trong này thì có thể nó đã bị bỏ.
+:::
+
+- **AllowRelocationBlock**
+  - Cho phép macOS khởi động qua Relocation Block
+  - Quirk này yêu cầu bật **ProvideCustomSlide，và** tắt **AvoidRuntimeDefrag**
+  - Rất ít khi dùng, chỉ dùng cho macOS đời cũ trên các thiết bị cũ ít bộ nhớ
+  - Không tương thích với macOS 11, mặc định sẽ tắt quirk này và bật **EnableSafeModeSlide**
+- **AvoidRuntimeDefrag**
+  - Ngăn boot.efi chạy chống phân mảnh bộ nhớ
+  - Nếu bật, nó sẽ sửa chữa các dịch vụ UEFI, chẳng hạn như ngày, giờ, NVRAM, kiểm soát nguồn, ...
+  - Quirk này là bắt buộc đối với hầu hết các mainboard, ngoại trừ Apple và VMware
+- **DevirtualiseMmio**
+  - Xóa thuộc tính thời gian chạy khỏi các vùng MMIO nhất định
+  - Loại bỏ các bit thời gian chạy cho các vùng bộ nhớ đã biết để giảm dung lượng bộ nhớ bị đánh cắp trong bản đồ bộ nhớ
+  - Trong các trường hợp bình thường, boot-args **slide=1** được sử dụng để chèn bộ nhớ liên tục, do đó, nó thường không được kiểm tra trừ khi máy của bạn sử dụng phương pháp KASLR.
+- **DisableSingleUser**
+  - Tắt chế độ SingleUser
+  - Sau khi bật, `Cmd + S` và `-s` sẽ bị vô hiệu hoá, khiến thiết bị gần real mac có chip T2
+- **DisableVariableWrite**
+  - Ngăn chặn quyền truy cập ghi NVRAM của macOS
+  - Khi được bật, ghi NVRAM sẽ bị cấm. Nó cần được bật trên các bo mạch chủ như Z390 / HM370 không có hỗ trợ macOS gốc cho NVRAM ngày xưa, giờ không cần nữa.
+- **DiscardHibernateMap**
+  - Hibernate Map ban đầu được sử dụng lại khi được bật, chỉ bắt buộc đối với một số phần cứng cũ hơn
+- **EnableSafeModeSlide**
+  - Khi được bật, sẽ cho phép dùng giá trị Slide trong safe mode
+- **EnableWriteUnprotector**
+  - Cho phép quyền ghi vào UEFI runtime serive code
+  - Khi được bật, bảo vệ ghi trong thanh ghi CR0 bị loại bỏ trong quá trình thực thi
+- **ForceExitBootServices**
+  - Thử ExitBootServices khi MemoryMap bị lỗi
+  - Khi được bật, nó sẽ đảm bảo rằng ExitBootServices có thể được gọi thành công ngay cả khi Bản đồ bộ nhớ thay đổi
+  - Nói chung các maiboard rất cũ và rất cũ có thể cần được sử dụng, các maiboard mới nói chung không cần sử dụng
+- **ProtectMemoryRegions**
+  - Bảo vệ các vùng bộ nhớ khỏi các truy cập sai
+  - Đảm bảo vùng bộ nhớ CSM được đánh dấu là ACPI NVS để ngăn boot.efi hoặc XNU di dời hoặc sử dụng chúng
+  - AvoidRuntimeDefrag giải quyết một vấn đề tương tự. Không bật theo mặc định.
+  - Một số mainboard cũ hơn có thể cần được bật
+- **ProtectSecureBoot**
+  - Bảo vệ các biến khởi động an toàn UEFI khỏi bị ghi đè
+  - Tránh hệ điều hành ghi vào các biến Khởi động an toàn UEFI (`db`, `dbx`, `PX`, `KEK`)
+  - Quirk này chủ yếu được sử dụng để tránh các sự cố NVRAM với bo mạch chủ Insyde và MacPro5,1
+- **ProtectUefiServices**
+  - Bảo vệ các dịch vụ UEFI khỏi bị ghi đè bởi chương trình cơ sở
+  - Được sử dụng để sửa lỗi Z390 trên DevirtualiseMmio, ProtectCsmRegion và ShrinkMemoryMap
+  - Các bo mạch chủ không phải Z390 thường không được bật theo mặc định
+- **ProvideCustomSlide**
+  - Cung cấp KASLR Slide tuỳ chỉnh khi bộ nhớ thấp
+  - Quirk này buộc macOS sử dụng giá trị slide ngẫu nhiễn, không xung đột trong tất cả các giá trị slide khả dụng
+  - Nếu giá trị Slide bị xung đột, quirk này buộc macOS phải chọn ngẫy nhiên giá trị Slide
+  - Chỉ dùng khi gặp lỗi `Only N/256 slide values are usable!`
+- **RebuildAppleMemoryMap**
+  - Xây dựng lại macOS MemoryMap tương thích
+  - Quirk này thường có thể được yêu cầu khi khởi động macOS 10.6 trở về trước
+- **SetupVirtualMap**
+  - Đặt bộ nhớ ảo trên SetVirtualAddresses
+  - Khi được bật, lệnh gọi SetVirtualAddresses sẽ được cố định thành các địa chỉ ảo
+  - Tạo bộ nhớ liên tục để OC sử dụng thông qua bộ nhớ ảo và ánh xạ nó vào bộ nhớ vật lý phân tán
+- **SignalAppleOS**
+  - Báo cáo tải macOS qua thông tin hệ điều hành cho bất kỳ hệ điều hành nào
+  - Báo cáo thông tin từ các hệ điều hành khác lên macOS đang tải
+  - Được sử dụng để kích hoạt iGPU cho MacBook trong Windows
+- **SyncRuntimePermissions**
+  - Cập nhật các quyền bộ nhớ của môi trường runtime
+  - Chủ yếu được sử dụng cho macOS hoặc Linux / Windows đời đầu
+
+
+## Intel Desktop
+
+### Sandy Bridge, Ivy Bridge, Haswell, Broadwell, Skylake, Kaby Lake
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-old.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-old.png" />
+  </TabItem>
+</Tabs>
+
+### Coffee Lake
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-cfl.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-cfl.png" />
+  </TabItem>
+</Tabs>
+
+:::tip
+- **EnableWriteUnprotector**
+  - Một số main H310, H370, B360, B365 sẽ cần phải bật qurik này nếu boot lỗi
+:::
+
+### Comet Lake, Tiger Lake, Alder Lake
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-cml.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-cml.png" />
+  </TabItem>
+</Tabs>
+
+## Intel High-End Desktop
+
+### Sandy, Ivy Bridge-E,  Haswell-E, Broadwell-E
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-old.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-old.png" />
+  </TabItem>
+</Tabs>
+
+### Skylake-X/W, Cascade Lake-X/W
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-cfl.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-cfl.png" />
+  </TabItem>
+</Tabs>
+
+## Intel Laptop
+
+### Sandy Bridge, Ivy Bridge, Haswell, Broadwell, Skylake, Kaby Lake
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-old.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-old.png" />
+  </TabItem>
+</Tabs>
+
+### Coffee Lake, WhiskyLake
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-cfl-lap.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-cfl-lap.png" />
+  </TabItem>
+</Tabs>
+
+### Coffee Lake Plus, Comet Lake, Icelake
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-cml.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-cml.png" />
+  </TabItem>
+</Tabs>
+
+## AMD Desktop 
+
+### Bulldozer(15h), Jaguar(16h)
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-old.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-old.png" />
+  </TabItem>
+</Tabs>
+
+### Ryzen, Threadripper(17h and 19h)
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-booter-ryzen.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-booter-ryzen.png" />
+  </TabItem>
+</Tabs>
+
+:::tip
+- **DevirtualiseMmio**
+  - TRx40 cần phải bật quirk này
+- **SetupVirtualMap**
+  - B550, A520 và TRx40 cần phải tắt qurik này
+  - Mainboard X570 với BIOS mới hơn cũng phải tắt qurik này
+  - X470 và B450 với bản cập nhật BIOS cuối năm 2020 cũng cần phải tắt quirk này
+:::

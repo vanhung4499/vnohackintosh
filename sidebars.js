@@ -52,6 +52,7 @@ const sidebars = {
       "post-install/booting-without-usb",
       "post-install/fixing-audio",
       "post-install/igpu-patching",
+      "post-install/igpu-output",
       "post-install/fixing-power-management",
       "post-install/fixing-battery",
       "post-install/fixing-iservices",

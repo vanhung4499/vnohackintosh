@@ -1,11 +1,11 @@
 ---
-title: Chuẩn bị cần thiết
+title: Chuẩn bị file cần thiết
 ---
 
 :::info
-+ Bài viết này bao gồm danh sách nguyên liệu cho món hackintosh bạn cần chuẩn bị.
++ Bài viết này bao gồm danh sách file hackintosh bạn cần chuẩn bị.
 + Bạn cần phải hiểu công dụng của chúng!
-+ Tuỳ thuộc vào cấu hình máy của bạn mà chọn nguyên liệu chứ không phải tất cả.
++ Tuỳ thuộc vào cấu hình máy của bạn mà chọn file chứ không phải tải tất cả.
 :::
 
 ## Installers
@@ -27,21 +27,21 @@ Hướng dẫn này không hỗ trợ các bản macOS 10.12 trở về trước
 
 ## Firmware Drivers
 
-+ Firmware driver là driver sử dụng cho bootloader (không phải driver cho OS như windows)
-+ Chúng cần phải có để có thể khởi động máy, ví dụ như HFSPlus.efi để bootloader có thể đọc được phân vùng định dạng HFS
++ Firmware driver là driver sử dụng cho bootloader (không phải driver cho OS).
++ Chúng cần phải có để phục vụ cho các chức năng của bootloader ví dụ như HFSPlus.efi để bootloader có thể đọc được phân vùng định dạng HFS.
 + Những driver chính đã có sẵn trong file bootloader ở trên, vị trí của chúng:
-    - OC: **EFI/OC/Drivers/**
+  - OC: **EFI/OC/Drivers/**
 	- Clover: **EFI/Clover/Drivers/Off**
 
 ### Universal
 
 Đối với tất cả hệ thống, bắt buộc cần phải có một số `.efi` drivers:
 
-|Driver|OC|Clover|Công dụng|
-|---|---|---|---|
-|HfsPlus.efi|[OcBinaryData]((https://github.com/acidanthera/OcBinaryData/blob/master/Drivers/HfsPlus.efi))||Đọc phân vùng HFS, nếu không có bạn sẽ không thấy phân vùng cài đặt từ usb|
-|ApfsDriverLoader.efi|Tích hợp sẵn|EFI/Clover/Drivers/Off/UEFI/MemoryFix|Đọc phân vùng APFS, nếu không có bạn sẽ không thấy phân vùng macOS|
-|OpenRuntime.efi|EFI/Drivers/|EFI/Clover/Drivers/Off/UEFI/MemoryFix|Patch boot.efi sửa lỗi NVRAM và quản lý bộ nhớ|
+| Driver               | OC                                                                                            | Clover                                | Công dụng                                                                  |
+| -------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------- |
+| HfsPlus.efi          | [OcBinaryData]((https://github.com/acidanthera/OcBinaryData/blob/master/Drivers/HfsPlus.efi)) |[OcBinaryData]((https://github.com/acidanthera/OcBinaryData/blob/master/Drivers/HfsPlus.efi))| Hỗ trợ định dạng HFS, nếu không có bạn sẽ không thấy phân vùng cài đặt từ usb |
+| ApfsDriverLoader.efi | Tích hợp sẵn                                                                                  | EFI/Clover/Drivers/Off/UEFI/MemoryFix | Hỗ trợ định dạng APFS, nếu không có bạn sẽ không thấy phân vùng macOS         |
+| OpenRuntime.efi      | EFI/Drivers/                                                                                  | EFI/Clover/Drivers/Off/UEFI/MemoryFix | Patch boot.efi sửa lỗi NVRAM và quản lý bộ nhớ                             |
 
 ## Kexts
 Kext viết tắt của **k**ernel **ext**ension, bạn có thể hiểu nó tương tự như driver trong Windows.
@@ -181,14 +181,14 @@ Dựa vào phần cứng trackpad có trên máy mà chọn kext phù hợp, kex
 
 :::info VoodooI2C Plugins
 
-| Kiểu kết nối | Plugin | Công dụng |
-| :--- | :--- | :--- |
-| Multitouch HID | VoodooI2CHID | Dùng cho đa số I2C/USB Touchscreen và Trackpad |
-| ELAN Proprietary | VoodooI2CElan | Thường là dùng cho ELAN1000 trên một số laptop ASUS gen 6 |
-| FTE1001 touchpad | VoodooI2CFTE | Chưa thấy máy nào dùng |
-| Atmel Multitouch Protocol | VoodooI2CAtmelMXT | Chưa thấy máy nào dùng |
-| Synaptics HID | [VoodooRMI](https://github.com/VoodooSMBus/VoodooRMI/releases/) | Dành chp I2C Synaptic Trackpads (chỉ cần VoodooI2C), trên một số laptop HP |
-| Alps HID | [AlpsHID](https://github.com/blankmac/AlpsHID/releases) | Dùng cho USB hoặc I2C Alps trackpad, trên một số laptop Dell Latitude, HP gen 7 |
+| Kiểu kết nối              | Plugin                                                          | Công dụng                                                                       |
+| :------------------------ | :-------------------------------------------------------------- | :------------------------------------------------------------------------------ |
+| Multitouch HID            | VoodooI2CHID                                                    | Dùng cho đa số I2C/USB Touchscreen và Trackpad                                  |
+| ELAN Proprietary          | VoodooI2CElan                                                   | Thường là dùng cho ELAN1000 trên một số laptop ASUS gen 6                       |
+| FTE1001 touchpad          | VoodooI2CFTE                                                    | Chưa thấy máy nào dùng                                                          |
+| Atmel Multitouch Protocol | VoodooI2CAtmelMXT                                               | Chưa thấy máy nào dùng                                                          |
+| Synaptics HID             | [VoodooRMI](https://github.com/VoodooSMBus/VoodooRMI/releases/) | Dành chp I2C Synaptic Trackpads (chỉ cần VoodooI2C), trên một số laptop HP      |
+| Alps HID                  | [AlpsHID](https://github.com/blankmac/AlpsHID/releases)         | Dùng cho USB hoặc I2C Alps trackpad, trên một số laptop Dell Latitude, HP gen 7 |
 
 :::
 
@@ -202,17 +202,8 @@ Dựa vào phần cứng trackpad có trên máy mà chọn kext phù hợp, kex
 :::info
 Nếu bạn muốn tìm hiểu thêm về kext vui lòng xem danh sách [Kexts.md](https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/Kexts.md) này
 :::
+
 ## Configs
 
-Vì mục tiêu hackintosh đơn giản và dễ hiểu nên tôi sẽ chuẩn bị sẵn config cho các bạn, config này chỉ đủ để bạn có thể boot vào usb installer và cài đặt macOS vào ổ cứng
-
-
-### Desktop
-
-
-### High End Desktop
-
-
-### Laptop
-
+Config.plist là file cấu hình tất cả các chức năng của Bootloader (OC và Clover). Chỉnh sửa một file config là phần rất quan trọng và rất dài nên sẽ viết thành một phần riêng. Vui lòng đọc các phần sau!
 

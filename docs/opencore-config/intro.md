@@ -1,9 +1,13 @@
 ---
-title: Giới thiệu OC Config.plist
+title: Tổng quan 
 ---
 
 :::info
-Tài liệu này cung cấp thông tin hướng dẫn về config OpenCore để giúp macOS hoạt động bình thường. Mở đầu cho mỗi phần, tôi sẽ giải thích các chức năng của các thành phần trong file Config.plist của OpenCore và sau đó sẽ tới phần điều chỉnh config theo cấu hình. Do việc OpenCore vẫn cập nhật liên tục, việc viết theo guide [Dortania](https://dortania.github.io/OpenCore-Install-Guide/) thì mỗi lần cập nhật tôi sẽ phải chỉnh sửa rất nhiều bài viết. Thay vào đó tôi sẽ viết theo cấu trúc của file **Config.plist**.
+Tài liệu này cung cấp hướng dẫn về cấu hình OpenCore để giúp macOS hoạt động bình thường. Mở đầu cho mỗi phần, tôi sẽ giải thích các chức năng của các thành phần trong file **Config.plist** của OpenCore và sau đó sẽ tới phần chỉnh sửa **Config.plist** theo cấu hình máy.
+:::
+
+:::info
+Do việc OpenCore vẫn cập nhật liên tục, việc viết theo guide [Dortania](https://dortania.github.io/OpenCore-Install-Guide/) thì mỗi lần cập nhật tôi sẽ phải chỉnh sửa rất nhiều bài viết. Thay vào đó tôi sẽ viết theo cấu trúc của file **Config.plist**.
 :::
 
 :::warning
@@ -80,12 +84,17 @@ Một file Config.plist sẽ chứa rất nhiều key/value nên không rảnh r
   + Ưu điểm:
     + Hỗ trợ đa nền tảng
     + Giao diện đơn giản, dễ nhìn
+    + Tính năng snapshot mạnh mẽ
   + Nhược điểm:
     + Không nhiều tính năng như 2 phần mềm trên
-    + Không hỗ trợ kéo thả thêm file vào config, nhưng có tính năng snapshot khá mạnh
+    + Không hỗ trợ kéo thả thêm file vào config
 
 :::tip
-Nếu bạn dùng Windows để làm hãy dùng OCAT, còn trong macOS thì dùng phần mềm nào cũng được.
+Nếu bạn dùng Windows hãy dùng OCAT, còn trong macOS thì dùng phần mềm nào cũng được.
+:::
+
+:::info
+Tôi gần như không sử dụng ProperTree nên trong hướng dẫn này tôi sẽ không có hướng dẫn sử dụng nó!
 :::
 
 ## Cấu trúc OpenCore Config.plist
@@ -106,6 +115,8 @@ OC Config bao gồm các phần độc lập, sẽ được giới thiệu lần
 + PlatformInfo
 + UEFI
 
+![occ](/img/docs/opencore-config/occ.png)
+
 Trong mỗi phần thường sẽ có những hoạt động sau:
 
 + Add：Thêm các file acpi, kext, driver
@@ -113,6 +124,13 @@ Trong mỗi phần thường sẽ có những hoạt động sau:
 + Patch：Chỉnh sửa các thành phần gốc của ACPI hoặc macOS
 + Quirks：Các bản patch được cấp sẵn
 
+:::tip
+Trong phần Add, một danh sách các file cần thiết sẽ được tạo, OC sẽ dựa vào danh sách này mà tìm và load các file theo đúng vị trí trong EFI. Có 2 trường hợp sau:
+- Nếu file có tồn tại trong EFI nhưng không có trong danh sách hoặc có nhưng không được enable thì file đó không được load. 
+- Nếu file không tồn tại trong EFI nhưng trong danh sách trên lại có và được enable thì OC sẽ báo lỗi ngay khi boot vào, lỗi không tìm thấy file.
+:::
+
 :::info
 Bạn có thể sử dụng **ocvalidate** để xác minh file config có lỗi cú pháp hay không? Lưu ý rằng phiên bản của **ocvalidate** phải khớp với phiên bản của OpenCore và có thể không phát hiện được tất cả các lỗi.
 :::
+

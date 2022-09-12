@@ -6,7 +6,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 :::info
-Trong bài viết này, tôi sẽ hướng dẫn làm usb bộ cài macOS offline trên Windows hoặc macOS, không như guide Dortania làm bộ cài online, tức là boot vào recovery xong, lúc cài đặt thì mới bắt đầu tải xuống các file cần thiết, ở việt nam thì cách này không phù hợp và dễ lỗi!
+Trong bài viết này, tôi sẽ hướng dẫn làm usb bộ cài macOS offline trên Windows hoặc macOS, không như guide Dortania làm bộ cài online, tức là boot vào recovery xong, lúc cài đặt thì mới bắt đầu tải xuống các file cần thiết, ở Việt Nam thì cách này không phù hợp và dễ lỗi!
 :::
 
 ## Download Installer
@@ -33,8 +33,9 @@ Sử dụng Etcher để ghi file bộ cài đuôi **.dmg** vào usb
 Mặc định ESP (EFI System Partition) sẽ bị ẩn đi, cần phải mount nó ra mới có thể chỉnh sửa
 :::
 
-Chọn EFI phù hợp với máy tính của bạn:
-
+:::danger
+Hiện tại bạn sẽ chưa có EFI, vui lòng đọc các phần tiếp theo để có thể tự tạo EFI phù hợp hoặc bạn kiếm được EFI ở đâu đó cứ việc dùng!
+:::
 
 ### Trong Windows
 
@@ -85,7 +86,7 @@ Chọn EFI phù hợp với máy tính của bạn:
       </TabItem>
     </Tabs>
 
-  :::warning
-  - Nếu trong ESP đã có sẵn EFI thì bạn hãy xoá sạch sau đó mới copy vào, không merge
-  - Sử dụng copy/patse không kéo thả file vào
-  :::
+:::warning
+- Nếu trong ESP đã có sẵn EFI thì bạn hãy xoá sạch sau đó mới copy vào, không merge
+- Sử dụng copy/patse không kéo thả file vào
+:::
