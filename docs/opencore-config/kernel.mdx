@@ -1,0 +1,270 @@
+---
+title: Kernel
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+:::tip
+Phần này liên quan đến Kernel, nhưng bạn chỉ cần quan tâm phần Add và Quirks mà thôi.
+:::
+
+## Add Kext
+
+
+
+Kext theo cấu hình đã tải được chuẩn bị trước, cần được thêm vào config thì OpenCore mới load chúng, nếu không có trong danh sách hoặc bị vô hiệu thì kext đó sẽ không được load.
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-kn-add.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-kn-add.png" />
+  </TabItem>
+</Tabs>
+
+1. Một bộ kext cơ bản sẽ bắt buộc có:
+
+  | Kext          | Type    |
+  | :------------ | :------ |
+  | Lilu          | System  |
+  | VirtualSMC    | System  |
+  | WhateverGreen | Graphic |
+  | AppleALC      | Audio   |
+
+2. Thêm kext LAN: (mainboad nhiều loại LAN thì thêm kext tương ứng)
+  - RealtekRTL8111
+  - RealtekRTL8100
+  - IntelMausi
+  - LucyRTL8125Ethernet.kext
+
+3. Thêm kext USB: 
+  - USBInjectAll (chưa map usb)
+  - XHCI-unsupported (cho X79/X99, 400/500/600 series)
+  - USBToolBox + UBTMap (đã map usb trong Windows)
+
+4. Thêm kext NVMEFix nếu dùng SSD NVME
+
+5. Thêm VoodooPS2Controller để dùng bàn phím cho laptop
+
+:::warning
+Thứ tự kext sẽ được load y như danh sách từ trên xuống, vậy nên bạn nên điều chỉnh lại theo như thứ tự tôi đã trình bày.
+:::
+
+## Quirks
+
+:::info
+Quirks trong các phiên bản OC khác nhau có thể sẽ khác nhau. Khi viết bài viế này tôi đang dùng bản 0.8.4, nhưng bạn chỉ cần tập trung vào một vài quirk quan trọng thôi không phải cần tất cả.
+:::
+
+Giải thích sơ qua về chức năng của các quirk:
+
+- **AppleCpuPmCfgLock**
+  - Chỉ cần khi không tắt được CFG-Lock trong BIOS
+  - Chỉ áp dụng cho Ivy Bridge hoặc cũ hơn
+- **AppleXcpmCfgLock**
+  - Chỉ cần khi không tắt được CFG-Lock trong BIOS
+  - Chỉ áp dụng cho Haswell hoặc mới hơn
+- AppleXcpmExtraMsrs
+  - Vô hiệu hóa quyền truy cập MSR quan trọng đối với một số CPU không có hỗ trợ XCPM như là Pentium và một số nhiều Xeon
+  - Chủ yếu được sử dụng trên các CPU không có quản lý nguồn gốc
+  - Nên bật cho `Broadwell-E` trở về trước, chỉ trên HEDT
+- AppleXcpmForceBoost
+  - Buộc hiệu suất tối đa ở chế độ XCPM
+  - Ép xung CPU cao được khuyến nghị sử dụng trên các CPU cao cấp, hoạt động liên tục được trong thời gian dài
+  - Một số CPU Xeon sẽ được hưởng lợi khi bật quirk này
+- **CustomSMBIOSGuid**
+  - Đi kèm với `UpdatesBiosMode = Custom` để vá lỗi GUID
+  - Laptop hoặc PC đồng bộ của Dell thường phải bật quirk này
+  - Nếu About This Mac không thể hiển thị số sê-ri một cách bình thường, bạn cũng có thể dùng nó
+-  **DisableIoMapper**
+  - Tắt hỗ trợ IOMapper trong XNU (VT-d)
+  - Nếu BIOS tắt được VT-d，không cần phải bật nó
+-  **DisableLinkeditJettison**
+  - Quirk này cho phép Lilu và các kext khác chạy ở mức hiệu suất tối ưu mà không cần boot arugment `keepsyms=1`
+- **DisableRtcChecksum**
+  - Ngăn AppleRTC ghi vào vùng thanh ghi checksum (0x58-0x59)
+  - Dùng cho các máy báo lỗi RTC sau khi shutdown/restart từ macOS
+  - Thường chỉ gặp lỗi này trên các laptop và PC của HP
+- ExtendBTFeatureFlags
+  - Đặt FeatureFlags thành 0x0F để có đầy đủ chức năng bluetooth
+  - Hữu dụng cho các card wifi không phải là của Apple/Fenvi (thực chất Fenvi chỉ là cái tên trên mặt chứ chip bên trong cũng như của Apple) khi gặp các lỗi tới tính năng continuity
+- ForceSecureBootScheme
+  - Tùy chọn này là bắt buộc trên các máy ảo khi sử dụng SecureBootModel khác x86legacy
+- IncreasePciBarSize
+  - Tăng kích thước Pci Bar 32-bit trong IOPCIFamily từ 1GB lên 4GB
+  - Tùy chọn này là bắt buộc để chỉ ra rằng phần sụn bị định cấu hình sai hoặc bị lỗi, vì vậy nó thường không được sử dụng
+- **LapicKernelPanic**
+  - Ngăn chặn Kernel Panic do ngắt AP core lapic gây ra
+  - Lỗi này thường gặp trên laptop HP, nếu không có lỗi thì không nên bật
+- LegacyCommpage
+  - Thay thế triển khai bcopy commpage 64-bit mặc định bằng một triển khai không yêu cầu SSE3
+  - Điều này hoạt động tuyệt vời cho các nền tảng cũ kế thừa 10.4-10.6
+  - macOS mới về cơ bản không cần
+- **PanicNoKextDump**
+  - Cho phép đọc log KP khi KP xảy ra, nên bật
+- **PowerTimeoutKernelPanic**
+  - Khắc phục Kernel Panic trong macOS Catalina do hết thời gian chờ thay đổi trạng thái nguồn của thiết bị
+  - Bật nó khi bạn không thể wake sau khi sleep
+  - PC thường không cần bật quirk này
+- ProvideCurrentCpuInfo
+  - Cung cấp thông tin CPU, Intel gen 12 và AMD thường dùng
+- SetApfsTrimTimeout
+  - Các phiên bản trước 10.14 không cần
+  - Chủ yếu dành cho SSD SATA, đặt các độ trễ khác nhau theo các bản mac khác nhau
+- ThirdPartyDrives
+  - Bật TRIM cho SSD, có thể cải thiện chế độ ngủ đông
+  - SSD NVMe được macOS tự động bật trim nên không cần
+  - SATA SSD có thể bật bằng lệnh `sudo trimforce enable`, hiệu quả là như nhau
+- **XhciPortLimit**
+  - Loại bỏ giới hạn 15 cổng, sau khi map usb thì không cần nó nữa
+  - Từ bản BigSur 11.3 không được bật quirk này nếu không sẽ không nhận cổng usb nào cả!
+
+## Intel Desktop
+
+### Sandy Bridge, Ivy Bridge
+
+![](/img/docs/opencore-config/xc-kn-q-dt-3.png)
+
+| Quirk                   | Enabled | Comment                                            |
+| :---------------------- | :------ | :------------------------------------------------- |
+| AppleCpuPmCfgLock       | YES     | Không cần nếu có thể disable `CFG-Lock` trong BIOS |
+| CustomSMBIOSGuid        | NO      | Dell/Vaio cần quirk này                            |
+| DisableIoMapper         | YES     | Không cần nếu có thể disable `VT-D` trong BIOS     |
+| DisableLinkeditJettison | YES     |                                                    |  |
+| LapicKernelPanic        | NO      | Máy HP sẽ cần quirk này                            |
+| PanicNoKextDump         | YES     |                                                    |
+| PowerTimeoutKernelPanic | YES     |                                                    |
+| XhciPortLimit           | YES     | Bỏ quirk này nếu kể từ macOS 11.3 trở về sau       |
+
+### Haswell, Broadwell, Skylake, Kaby Lake, Coffee Lake, Comet Lake, Tiger Lake
+
+![](/img/docs/opencore-config/xc-kn-q-dt-4.png)
+
+| Quirk                   | Enabled | Comment                                                                  |
+| :---------------------- | :------ | :----------------------------------------------------------------------- |
+| AppleCpuPmCfgLock       | NO      | Need if running 10.10 or older and cannot disable `CFG-Lock` in the BIOS |
+| AppleXcpmCfgLock        | YES     | Không cần nếu có thể disable `CFG-Lock` trong BIOS                       |
+| CustomSMBIOSGuid        | NO      | Dell/Vaio cần quirk này                                                  |
+| DisableIoMapper         | YES     | Không cần nếu có thể disable `VT-D` trong BIOS                           |
+| DisableLinkeditJettison | YES     |                                                                          |  |
+| LapicKernelPanic        | NO      | Máy HP sẽ cần quirk này                                                  |
+| PanicNoKextDump         | YES     |                                                                          |
+| PowerTimeoutKernelPanic | YES     |                                                                          |
+| XhciPortLimit           | YES     | Bỏ quirk này nếu kể từ macOS 11.3 trở về sau                             |
+
+## Intel HEDT
+
+### Sandy Bridge-E, Ivy Bridge-E, Haswell-E, Broadwell-E
+
+![](/img/docs/opencore-config/xc-kn-q-hedt-5.png)
+
+| Quirk                   | Enabled | Comment                                                                  |
+| :---------------------- | :------ | :----------------------------------------------------------------------- |
+| AppleCpuPmCfgLock       | NO      | Need if running 10.10 or older and cannot disable `CFG-Lock` in the BIOS |
+| AppleXcpmCfgLock        | YES     | Không cần nếu có thể disable `CFG-Lock` trong BIOS                       |
+| AppleXcpmExtraMsrs      | YES     |                                                                          |
+| CustomSMBIOSGuid        | NO      | Dell/Vaio cần quirk này                                                  |
+| DisableIoMapper         | YES     | Không cần nếu có thể disable `VT-D` trong BIOS                           |
+| DisableLinkeditJettison | YES     |                                                                          |
+| LapicKernelPanic        | NO      | Máy HP sẽ cần quirk này                                                  |
+| PanicNoKextDump         | YES     |                                                                          |
+| PowerTimeoutKernelPanic | YES     |                                                                          |
+| XhciPortLimit           | YES     | Bỏ quirk này kể từ macOS 11.3 trở về sau                                 |
+
+:::info
+Dành cho Haswell-E và Broadwell-E, cần phải fake thông tin CPU trong phần Emulate:
+- **Haswell E**:
+  - Cpuid1Data: **`C3060300 00000000 00000000 00000000`**
+  - Cpuid1Mask: **`FFFFFFFF 00000000 00000000 00000000`**
+- **Broadwell E**:
+  - Cpuid1Data: **`D4060300 00000000 00000000 00000000`**
+  - Cpuid1Mask: **`FFFFFFFF 00000000 00000000 00000000`**
+:::
+
+### Skylake-X/W, Cascade Lake-X/W
+
+![](/img/docs/opencore-config/xc-kn-q-hedt-6.png)
+
+| Quirk                   | Enabled | Comment                                            |
+| :---------------------- | :------ | :------------------------------------------------- |
+| AppleXcpmCfgLock        | YES     | Không cần nếu có thể disable `CFG-Lock` trong BIOS |
+| CustomSMBIOSGuid        | NO      | Dell/Vaio cần quirk này                            |
+| DisableIoMapper         | YES     | Không cần nếu có thể disable `VT-D` trong BIOS     |
+| DisableLinkeditJettison | YES     |                                                    |
+| LapicKernelPanic        | NO      | HP Machines will require this quirk                |
+| PanicNoKextDump         | YES     |                                                    |
+| PowerTimeoutKernelPanic | YES     |                                                    |
+| XhciPortLimit           | YES     | Bỏ quirk này kể từ macOS 11.3 trở về sau           |
+
+## Intel Laptop
+
+### Sandy Bridge, Ivy Bridge
+
+![](/img/docs/opencore-config/xc-kn-q-lt-3.png)
+
+| Quirk                   | Enabled | Comment                                            |
+| :---------------------- | :------ | :------------------------------------------------- |
+| AppleCpuPmCfgLock       | YES     | Không cần nếu có thể disable `CFG-Lock` trong BIOS |
+| CustomSMBIOSGuid        | NO      | Dell/Vaio cần quirk này                            |
+| DisableIoMapper         | YES     | Không cần nếu có thể disable `VT-D` trong BIOS     |
+| DisableLinkeditJettison | YES     |                                                    |
+| LapicKernelPanic        | NO      | HP Machines will require this quirk                |
+| PanicNoKextDump         | YES     |                                                    |
+| PowerTimeoutKernelPanic | YES     |                                                    |
+| XhciPortLimit           | YES     | Bỏ quirk này kể từ macOS 11.3 trở về sau           |
+
+### Haswell, Broadwell, Skylake, Kaby Lake, Coffee Lake, Whiskey Lake, Coffee Lake Plus, Comet Lake, Icelake
+
+![](/img/docs/opencore-config/xc-kn-q-lt-4.png)
+
+| Quirk                   | Enabled | Comment                                                                  |
+| :---------------------- | :------ | :----------------------------------------------------------------------- |
+| AppleCpuPmCfgLock       | NO      | Need if running 10.10 or older and cannot disable `CFG-Lock` in the BIOS |
+| AppleXcpmCfgLock        | YES     | Không cần nếu có thể disable `CFG-Lock` trong BIOS                       |
+| CustomSMBIOSGuid        | NO      | Dell/Vaio cần quirk này                                                  |
+| DisableIoMapper         | YES     | Không cần nếu có thể disable `VT-D` trong BIOS                           |
+| DisableLinkeditJettison | YES     |                                                                          |
+| LapicKernelPanic        | NO      | Máy HP sẽ cần quirk này                                                  |
+| PanicNoKextDump         | YES     |                                                                          |
+| PowerTimeoutKernelPanic | YES     |                                                                          |
+| XhciPortLimit           | YES     | Bỏ quirk này kể từ macOS 11.3 trở về sau                                 |
+
+## AMD Desktop
+
+### Quirks
+| Quirk                   | Enabled | Comment                                  |
+| :---------------------- | :------ | :--------------------------------------- |
+| DisableLinkeditJettison | YES     |                                          |
+| PanicNoKextDump         | YES     |                                          |
+| PowerTimeoutKernelPanic | YES     |                                          |
+| ProvideCurrentCpuInfo   | YES     |                                          |
+| XhciPortLimit           | YES     | Bỏ quirk này kể từ macOS 11.3 trở về sau |
+
+### Emulate
+
+Cần bật thêm **DummyPowerManagement**.
+
+### Patch
+Đối với AMD CPU thì còn phải thêm khá nhiều Patch Kernel: [AMD_Vanilla](https://github.com/AMD-OSX/AMD_Vanilla/blob/master/patches.plist)
+
+Bạn có thể dùng [**Propertree**](https://github.com/corpnewt/ProperTree) để thay thế phần `Kernel > Patch` trong config bằng phần patch được cung cấp trong link trên.
+
+![](/img/docs/opencore-config/occ-kn-p-amd.png)
+
+Core Count patch cần phải được sửa dựa theo CPU của bạn. Tìm ba dòng `algrey - Force cpuid_cores_per_package` và sửa giá trị `Replace` (như ảnh). Ba dòng trên tương ứng với các bản macOS từ 10.13 tới 12 và các bản mới hơn sẽ thêm các dòng khác.
+
+Sửa `B8000000 0000`/`BA000000 0000`/`BA000000 0090` to `B8 <CoreCount> 0000 0000`/`BA <CoreCount> 0000 0000`/`BA <CoreCount> 0000 0090` với `<CoreCount>` là số nhân trong CPU của bạn trong hệ 16.
+
+| CoreCount | Hexadecimal |
+| --------- | ----------- |
+| 4 Core    | `04`        |
+| 6 Core    | `06`        |
+| 8 Core    | `08`        |
+| 12 Core   | `0C`        |
+| 16 Core   | `10`        |
+| 24 Core   | `18`        |
+| 32 Core   | `20`        |
+
+Ví dụ với Ryzen 5 5600X có 6 Core thì giá trị điền vào Replace là `B8 06 0000 0000`/`BA 06 0000 0000`/`BA 06 0000 0090`
