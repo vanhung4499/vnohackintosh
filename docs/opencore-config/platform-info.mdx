@@ -1,0 +1,81 @@
+---
+title: PlatformInfo
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+:::info
+Phần này bạn phải chọn các thông tin SMBIOS phù hợp. Hiểu đơn giản bạn đang cố giả mạo một máy real mac để boot được mac, vậy bạn cần phải làm giả các thông số của real mac.
+:::
+
+## Chọn SMBIOS phù hợp
+
+Lướt qua một lượt danh sách smbios thì sẽ có mấy nhóm chính:
+
+| SMBIOS     | Type         |
+| ---------- | ------------ |
+| MacbookAir | Laptop       |
+| MacbookPro | Laptop       |
+| MacBook    | Laptop       |
+| iMac       | Desktop      |
+| MacMini    | Desktop      |
+| iMacPro    | HEDT/Desktop |
+| MacPro     | HEDT/Desktop |
+
+
+Việc lựa chọn sẽ chủ yếu dựa vào 3 yếu tố sau:
+
+- CPU
+  - Lựa chọn smbios dựa vào loại (mobile/desktop/server) sẽ ảnh hưởng tới tính ổn định của hệ thống. VD cpu laptop thì chọn smbios MacbookPro hoặc MacbookAir.
+  - Nên chọn smbios có cùng kiến trúc kiến. VD i7-6700HQ thì chọn MacbookPro13,3 (cùng kiến trúc Skylake).
+  - Đối với các CPU không có iGPU (Xeon hoặc Core i đuôi F) hoặc AMD thì smbios tốt nhất là `iMacPro1,1/MacPro7,1`
+- GPU
+  - Laptop thì gần như là chỉ dùng được iGPU nên cũng chỉ có chọn `MacbookAir/MacbookPro` theo như CPU
+  - PC chỉ có iGPU thì chọn `iMac/MacMini` theo CPU
+  - PC chỉ có dGPU:
+    - Nếu là card AMD Polaris trở về sau (RX 4xx/5xx/5xxx/6xxx) , chọn ngay `iMacPro1,1/MacPro7,1` để kích hoạt `Hardware Acceleration and Decoding`, đây là một tính năng khá quan trọng liên quan tới DRM và encode/decode H264/HEVC
+    - Nếu là card AMD cũ hơn hoặc NVIDIA thì không hỗ trợ tính năng trên, mà cũng không có iGPU để kích hoạt Intel QuickSync hỗ trợ encode/decode H264/HEVC, nên chọn iMac hay `iMacPro1,1/MacPro7,1` tuỳ theo kiểu CPU
+  - PC có cả iGPU lẫn dGPU:
+    - Nếu là card AMD Polaris, bạn có thể lựa chọn `iMac` kèm theo chạy iGPU ở chế độ headless (tức chỉ tính toán không xuất hình) để dùng Intel QuickSync hoặc chọn `iMacPro1,1/MacPro7,1` và tắt IGPU đi để dùng `Hardware Acceleration and Decoding`
+    - Nếu là các loại card khác thì nên chọn iMac và bật iGPU chạy headless để dùng Intel QuickSync
+- macOS
+  - Các phiên bản macOS mới sẽ loại bỏ một số mẫu real mac ra khỏi danh sách hỗ trợ, nên nếu chọn smbios quá cũ sẽ không boot được trong mac mới
+  - Ngược lại thì chọn smbios quá mới không nằm trong hỗ trợ của macOS cũ cũng sẽ lỗi
+
+Danh sách thông số các SMBIOS bạn có thể tham khảo ở đây [macOS SMBIOS](https://dortania.github.io/OpenCore-Install-Guide/extras/smbios-support.html#macos-smbios-list)
+
+:::tip Đề xuất SMBIOS của tôi
++ PC Intel thì dựa vào GPU trước:
+  + Chỉ có iGPU thì chọn **iMac** cùng kiến trúc CPU
+  + Có card rời AMD Polaris thì ưu tiên chọn **iMacPro1,1/MacPro7,1** kèm tắt iGPU, cũng có thể chọn **iMac** kèm iGPU headless
+  + Card rời khác thì xem có iGPU Không? Có thì chọn **iMac** kèm iGPU headless, không có thì chọn **iMac/iMacPro1,1/MacPro7,1** gì cũng được
++ Laptop thì cứ chọn **MacbookAir/MacbookPro** cùng kiến trúc, xem CPU đuôi U hay H mà chọn cho giống
++ HEDT hay AMD thì xác định **iMacPro1,1/MacPro7,1**
+:::
+
+## Chỉnh sửa SMBIOS
+
+Sau khi chọn được SMBIOS, việc chỉnh sửa rất đơn giản, do OCC hay OCAT hỗ trợ chỉ với vài cú click, các trình chỉnh sửa sẽ tạo ra các thông số theo từng loại máy! 
+
+<Tabs>
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/opencore-config/occ-pi.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/opencore-config/ocat-pi.png" />
+  </TabItem>
+</Tabs>
+
+Chỉ cần dùng thông số ở phần `Generic`, không cần chỉnh sửa phần khác.
+
+:::tip
+Cần lưu ý thông số `ProcessorType`, sau khi gen sẽ được set mặc định một số cụ thể, nên đặt nó là thành 0 để tránh hiển thị sai tên CPU trong `About This Mac`
+:::
+
+## Chọn đúng Serial Number
+
+Serial Number sẽ ảnh hưởng tới các dịch vụ của Apple như iMessage/Facetime có hoạt động trên máy của bạn không?
+
+Phần này vui lòng tham khảo [Fixing iServices](/docs/post-install/fixing-iservices)
+
