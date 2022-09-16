@@ -2,9 +2,6 @@
 title: Setup BIOS cho Hackintosh
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 ## Phím tắt BIOS và Boot Options của các hãng
 
 | Hãng      |   BIOS    | Boot Options |
