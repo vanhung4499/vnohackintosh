@@ -15,8 +15,8 @@
 const sidebars = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
   tutorialSidebar: {
-    "Introdution": ["introduction"],
-    "Basic Knowlegde": [
+    "Bắt đầu": ["introduction"],
+    "Kiến thức cơ bản": [
       "basic-knowledge/prerequisites",
       "basic-knowledge/limits",
       "basic-knowledge/installation-process",
@@ -24,7 +24,7 @@ const sidebars = {
       "basic-knowledge/terminology",
       // "basic-knowledge/opencore-vs-clover"
     ],
-    "USB Creation": [
+    "Tạo USB cài macOS": [
       "usb-creation/download-files",
       "usb-creation/create-usb-installer",
       "usb-creation/basic-opencore",
@@ -43,12 +43,12 @@ const sidebars = {
       "opencore-config/platform-info",
       "opencore-config/uefi",
     ], 
-    "Installation": [
+    "Cài đặt": [
       "installation/setup-bios",
       "installation/partition",
       "installation/install-macos",
     ],
-    "Post Install": [
+    "Sau cài đặt": [
       "post-install/booting-without-usb",
       "post-install/fixing-audio",
       "post-install/igpu-patching",
@@ -63,7 +63,7 @@ const sidebars = {
       "post-install/backup",
       "post-install/update-ota",
     ],
-    "ACPI Patching": [
+    "Patch ACPI": [
       "acpi-patching/overview",
       "acpi-patching/adding-missing-devices",
       "acpi-patching/disabling-unsupported-dgpu",
