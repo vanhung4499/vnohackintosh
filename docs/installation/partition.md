@@ -7,7 +7,7 @@ Phần này tôi sẽ hướng dẫn các bạn chia ổ cứng thế nào cho h
 :::
 
 :::tip
-Với kinh nghiệm cá nhân thì bạn phải chia cho vùng mac ít nhất **100GB**! Đã có rất nhiều lần tôi phải xử lý tăng kích thước vùng mac cho khách hàng vì ban đầu chia quá ít! Không phải lúc nào cũng có thể tăng được, nhiều khi phải clone hẳn qua một vùng mới! Xử lý rất phiền phức!
+Với kinh nghiệm cá nhân thì bạn phải chia cho vùng mac ít nhất **100GB**! Đã có rất nhiều lần tôi phải xử lý tăng kích thước vùng mac cho khách hàng vì ban đầu chia quá ít! Không phải lúc nào cũng có thể tăng được, nhiều lần tôi phải clone hẳn qua một vùng mới, xử lý rất phiền phức!
 :::
 
 ## Bài toán phân vùng?
@@ -42,6 +42,10 @@ Minitool Partition Wizzard xin hân hạnh tài trợ cho giải pháp này!
 
 Hướng dẫn sử dụng Minitool Partition Wizzard xin vui lòng **tham khảo kĩ** bài viết sau: [Cách tạo phân vùng boot EFI, MSR và Recovery cho chuẩn UEFI/GPT
 ](https://blogchiasekienthuc.com/thu-thuat-may-tinh/cach-tao-phan-vung-boot-efi-msr-va-recovery.html)
+
+:::tip
+Hãy đặt tên phân vùng để cài mac cho dễ phân biệt với các phân vùng khác để tránh xoá nhầm trong lúc cài đặt. Tôi thường để là **MAC**, **Hackintosh**, **Macintosh HD**.
+:::
 
 :::danger
 Luôn luôn backup dữ liệu của bạn, vì việc phân chia ổ cứng này bạn sẽ có thể lỡ tay xoá luôn dữ liệu. Tôi không chịu trách nhiệm cho sự bất cẩn của bạn!
