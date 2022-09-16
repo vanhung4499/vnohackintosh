@@ -49,7 +49,7 @@ const sidebars = {
       "installation/install-macos",
     ],
     "Sau cài đặt": [
-      "post-install/booting-without-usb",
+      "post-install/must-do-after-install",
       "post-install/fixing-audio",
       "post-install/igpu-patching",
       "post-install/igpu-output",

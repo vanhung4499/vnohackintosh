@@ -26,6 +26,7 @@ Quá trình cài đặt được mô tả như sau:
 - Kế tiếp là màn hình **Tools** xuất hiện, vui lòng chọn **Disk Utility** để tiến hành xoá phân vùng.
 
     ![](/img/docs/installation/install-2.png)
+
 - Trong **Disk Utility**, chọn **View --> Show all Devices**, bước này rất quan trọng.
 
     ![](/img/docs/installation/install-3.png)
