@@ -39,7 +39,7 @@ Hướng dẫn này không hỗ trợ các bản macOS 10.12 trở về trước
 
 | Driver               | OC                                                                                            | Clover                                | Công dụng                                                                  |
 | -------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------- |
-| HfsPlus.efi          | [OcBinaryData]((https://github.com/acidanthera/OcBinaryData/blob/master/Drivers/HfsPlus.efi)) |[OcBinaryData]((https://github.com/acidanthera/OcBinaryData/blob/master/Drivers/HfsPlus.efi))| Hỗ trợ định dạng HFS, nếu không có bạn sẽ không thấy phân vùng cài đặt từ usb |
+| HfsPlus.efi          | [OcBinaryData](https://github.com/acidanthera/OcBinaryData/blob/master/Drivers/HfsPlus.efi) |[OcBinaryData](https://github.com/acidanthera/OcBinaryData/blob/master/Drivers/HfsPlus.efi)| Hỗ trợ định dạng HFS, nếu không có bạn sẽ không thấy phân vùng cài đặt từ usb |
 | ApfsDriverLoader.efi | Tích hợp sẵn                                                                                  | EFI/Clover/Drivers/Off/UEFI/MemoryFix | Hỗ trợ định dạng APFS, nếu không có bạn sẽ không thấy phân vùng macOS         |
 | OpenRuntime.efi      | EFI/Drivers/                                                                                  | EFI/Clover/Drivers/Off/UEFI/MemoryFix | Patch boot.efi sửa lỗi NVRAM và quản lý bộ nhớ                             |
 

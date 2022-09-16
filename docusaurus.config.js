@@ -78,8 +78,8 @@ const config = {
             title: "Docs",
             items: [
               {
-                label: "Tutorial",
-                to: "/docs/introdution",
+                label: "Guide",
+                to: "/docs/introduction",
               },
             ],
           },
@@ -87,16 +87,12 @@ const config = {
             title: "Community",
             items: [
               {
-                label: "Stack Overflow",
-                href: "https://stackoverflow.com/questions/tagged/docusaurus",
+                label: "Facebook Group",
+                href: "https://www.facebook.com/groups/vnohackintosh",
               },
               {
-                label: "Discord",
-                href: "https://discordapp.com/invite/docusaurus",
-              },
-              {
-                label: "Twitter",
-                href: "https://twitter.com/docusaurus",
+                label: "Facebook Page",
+                href: "https://www.facebook.com/vnohackintosh",
               },
             ],
           },
@@ -109,12 +105,12 @@ const config = {
               },
               {
                 label: "GitHub",
-                href: "https://github.com/facebook/docusaurus",
+                href: "https://github.com/vanhung4499",
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} VNOHackintosh, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
