@@ -44,8 +44,8 @@ const sidebars = {
       "opencore-config/uefi",
     ], 
     "Cài đặt": [
-      "installation/setup-bios",
       "installation/partition",
+      "installation/setup-bios",
       "installation/install-macos",
     ],
     "Sau cài đặt": [
