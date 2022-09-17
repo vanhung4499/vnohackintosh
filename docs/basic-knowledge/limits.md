@@ -107,7 +107,7 @@ Tôi sẽ không đề cập đến các phần cứng quá cũ như CPU Intel G
 - Laptop: HD 3000 tối đa 10.13.6, HD 4000 tối đa 10.15.7, HD 4XXX trở về sau có thể cài bản mac mới nhất
 
 :::info
-+ Để tra rõ hơn về GPU, vui lònh truy cập [GPU Buyers Guide](https://dortania.github.io/GPU-Buyers-Guide/)
++ Để tra rõ hơn về GPU, vui lòng truy cập [GPU Buyers Guide](https://dortania.github.io/GPU-Buyers-Guide/)
 + Card rời trên laptop thì đa số không dùng được nên đừng hi vọng cài bản macOS cũ thì nó chạy, và HDMI/DP nếu xuất từ card rời nữa thì cũng không dùng được luôn!
 :::
 
