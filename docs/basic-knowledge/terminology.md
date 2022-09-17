@@ -27,7 +27,7 @@ title: Kiến thức cần phải biết
 | **Native / OOB**          | (Out-Of-Box) Tự hoạt động, được apple hỗ trợ sẵn, không cần kext hay chỉnh sửa acpi gì cả                                                    |
 | **ACPI**                  | The Advanced Configuration and Power Interface (ACPI), cho phép hệ thống xác định và điều chỉnh thông tin phần cứng, sẽ đề cập về sau        |
 | **DSDT / SSDT**           | Các bảng trong ACPI mô tả các thiết bị và cách hệ điều hành sẽ tương tác với chúng                                                           |
-| **.AML**                  | định dạng file đã được biên dịch trong ACPI                                                                                                  |
+| **.AML**                  | định dạng file ACPI đã được biên dịch ACPI                                                                                                  |
 | **.DSL**                  | các file mã nguồn ACPI chưa được biên dịch                                                                                                   |
 | **NVRAM**                 | Bộ nhớ truy cập ngẫu nhiên không thay đổi, đi kèm với bo mạch chủ, NVRAM sẽ được tải đầu tiên khi khởi động UEFI                             |
 | **Reset NVRAM**           | Xoá bộ nhớ NVRAM đi, tương tự như việc bạn reset CMOS trong BIOS                                                                             |

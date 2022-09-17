@@ -1,0 +1,106 @@
+---
+title: Phải làm khi mới cài macOS
+---
+
+:::info
+Như tiêu đề, phần này tôi sẽ nêu ra một số việc bắt buộc phải làm sau khi mới cài macOS xong!
+:::
+
+## Kết nối internet
+
+**Đương nhiên rồi, không có internet thì làm được cái gì?**
+
++ Nếu dùng LAN thì trong EFI đã có sẵn kext, máy sẽ tự kết nối được internet.
+
++ Nếu bạn có card wifi apple hoặc card wifi hỗ trợ thì bạn cần chọn biểu tượng wifi trên thanh top bar góc bên phải, và kết nối tới mạng wifi của bạn!
+
++ Không được nữa phải mua usb wifi có hỗ trợ như rất nhiều mã của TPLink (WN725N, WN823N, ...) hoặc Comfast (CF-881AC), ...
+
++ Còn không có những điều trên thì phải chơi trò dùng iphone/android để chia sẻ kết nối internet!
+  + iPhone cây nhà lá vườn cắm phát, bật chia sẻ trong cài đặt iphone, vào mạng liền nhưng chỉ chia sẻ qua **3G/4G/5G**
+  + Android thì phải thêm kext [HoRNDIS](https://github.com/jwise/HoRNDIS/releases/tag/rel9.2) vào EFI. Android thì lại chia sẻ internet qua Wifi được!
+
+## Map lại phím chức năng
+
+Nếu bạn có bàn phím layout mac thì không cần chỉnh gì,  (VD: Magic keyboard, Keychron Kx, ...) hãy bỏ qua!
+
+Trong macOS, bạn sẽ làm quen với **Control, Option, Command** thay cho **Ctrl, Windows, Alt**. Nhiều phím tắt sẽ thay đổi, điển hình là để copy, mac dùng `Cmd + V` còn win thì `Ctrl + V`, ...
+
+![](/img/docs/post-install/kb-layout.png)
+
+Như hình trên, nhìn vào mũi tên màu đỏ, bàn phím Windows của bạn đang bị lệch so với layout mac.
+
+| Windows |  macOS  | Kí hiệu |
+| :-----: | :-----: | :-----: |
+|  Ctrl   | Control |   `⌃`   |
+| Windows | Command |   `⌘`   |
+|   Alt   | Option |   `⌥`   |
+
+Nếu để như hiện tại, để copy tức `Cmd + V` thì bạn phải bấm trên bàn phím là `Windows + V`.
+
+Muốn đổi lại cho giống layout mac, cần tráo chức năng 2 phím Windows và Alt cho nhau (tức đổi Command và Option), làm như sau:
+
++ Mở **System Preferences** → **Keyboard** → **Modifier Keys**
+
+    ![](/img/docs/post-install/remap-1.png)
+
++ Chọn đúng bàn phím → Đổi chức năng của Command và Option → OK
+
+    ![](/img/docs/post-install/remap-2.png)
+
+:::tip
+Ngoài ra, bạn cũng có thể dùng [**Karabiner**](https://karabiner-elements.pqrs.org/) để remap lại toàn bộ bàn phím. Đây là một công cụ cực kì mạnh mẽ, kết hợp với một số phần mềm, hướng dẫn khác, bạn có thể tăng tốc tốc độ làm việc lên rất nhiều! Có thời gian tôi sẽ viết blog hướng dẫn!
+:::
+
+## Chỉnh sửa thanh Dock
+
+Thông thường mọi người hay hỏi tôi là sao không thấy cái icon trên dock nó to ra vậy? nhiều người rất thích điều này nhưng cá nhân tôi thì không dùng tới vì tôi ẩn dock đi và mở app bằng bàn phím!
+
+![](/img/docs/post-install/dock-mag.png)
+
+
+OK để có hiệu ứng phóng to trên dock, làm như sau:
+
++ Mở **System Preferences** → **Dock & Menu Bar** -> Tích **Magnification**
+
+    ![](/img/docs/post-install/dock-setting.png)
+
+## Sửa ngược hướng lăn chuột
+
+Real mac thì dùng magic mouse, nó không có con lăn, thao tác cuộn trang là vuốt trên xuống. Dùng chuột thường lăn sẽ bị ngược, cần sửa như sau:
+
++ Mở **System Preferences** → **Mouse** -> Bỏ tích **Scroll Direction: Natural**
+
+    ![](/img/docs/post-install/dock-setting.png)
+
+Bạn cũng có thể chỉnh tốc độ rê, lăn chuột trong này!
+
+Lưu ý là nếu dùng trackpad thì scroll sẽ ngược sau bỏ tích!
+
+## Hiển thị Disk ra Desktop
+
+Việc này cũng nhiều người hỏi, do mac mặc định tắt đi thôi, làm như sau:
+
++ Mở **Finder** → **Preferneces** -> **General** -> Tích **Hard Disk**
+
+    ![](/img/docs/post-install/finder-setting.png)
+
+## Cài bộ gõ tiếng việt
+
+Trong macOS có sẵn bộ gõ tiếng việt, nhưng đối với tôi thì nó khá là ngu! Bạn nên dùng các phần mềm bên thứ ba để thay thế. Một vài lựa chọn:
+
++ [EVKey](https://evkeyvn.com/) (lựa chọn của tôi)
++ [OpenKey](https://github.com/tuyenvm/OpenKey/releases)
++ [GoTiengViet](https://www.trankynam.com/gotv/)
+
+:::tip
+Tôi đề cập tới vấn đề này là vì bạn sẽ còn phải tìm hiểu, đi hỏi lỗi về hackintosh nhiều, hỏi thì hãy viết tiếng việt có dấu chứ không dấu chả ai đọc đâu!
+:::
+
+## Chụp ảnh màn hình
+
+Từ macOS Mojave, macOS có sẵn bộ công cụ chụp ảnh màn hình, xem phím tắt để dùng:
+
+![](/img/docs/post-install/screenshot.png)
+
+Mặc định ảnh sẽ lưu ở **Desktop**, còn không thì sẽ lưu vào **clipboard**, patse là được.
