@@ -107,4 +107,3 @@ Bạn cần cài đặt thêm [Wireless-USB-OC-Big-Sur-Adapter](https://github.c
 Video hướng dẫn cũng như danh sách usb wifi được hỗ trợ bạn tự xem thêm trong repo. Nhưng lưu ý cần phải làm 2 điều sau: 
 + Disable `SecureBootModel` trong **config → Misc → Security**
 + Tắt SIP (Đã hướng dẫn trong phần [Config NVRAM](/docs/opencore-config/nvram))
-

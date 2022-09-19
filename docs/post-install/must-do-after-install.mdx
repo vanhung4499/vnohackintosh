@@ -2,9 +2,44 @@
 title: Phải làm khi mới cài macOS
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 :::info
 Như tiêu đề, phần này tôi sẽ nêu ra một số việc bắt buộc phải làm sau khi mới cài macOS xong!
 :::
+
+## Chép EFI vào ESP trên ổ cứng
+
+Cần chép EFI và ổ cứng để bạn có thể boot không cần usb, vẫn phải giữ usb lại để xử lý khi làm lỗi không boot vào được mac!
+
++ Đầu tiên phải mount EFI ra, trong macOS thì có rất nhiều cách để làm, tôi đã đề cập trước đây trong bài [Tạo USB bộ cài macOS](/docs/usb-creation/create-usb-installer). Bạn sẽ phải mount cả EFI trên USB và ô cứng:
+
+<Tabs>
+  <TabItem value="hktool" label="Hackintool/EFI Agent" default>
+    <img src="/img/docs/post-install/hktool-mount-efi.png" />
+  </TabItem>  
+  <TabItem value="occ" label="OCC" default>
+    <img src="/img/docs/post-install/occ-mount-efi.png" />
+  </TabItem>
+  <TabItem value="ocat" label="OCAT">
+    <img src="/img/docs/post-install/ocat-mount-efi.png" />
+  </TabItem>
+</Tabs>
+
++ Tiếp theo là chép EFI trong USB vào ổ cứng:
+  + Trường hợp EFI trống chỉ việc chép nguyên EFI qua
+  + Trường hợp đã có sẵn EFI của Windows, chỉ copy `EFI/BOOT` và `EFI/OC` từ USB qua thư mục `EFI` trên SSD, ghi đè thư mục `Boot` có sẵn và giữ nguyên thư mục `Microsoft` (chứa boot win). **Cẩn thận nếu bạn ghi đè nguyên thư mục EFI của Win thì bạn sẽ không boot vào win được!**
+
+<Tabs>
+  <TabItem value="empty" label="EFI trống" default>
+    <img src="/img/docs/post-install/copy-efi-empty.png" />
+  </TabItem>  
+  <TabItem value="ms" label="Chung EFI với Windows" default>
+    <img src="/img/docs/post-install/copy-efi-dual.png" />
+  </TabItem>
+</Tabs>
+
 
 ## Kết nối internet
 
