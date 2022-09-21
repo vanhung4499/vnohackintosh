@@ -15,7 +15,7 @@ Quá trình cài đặt được mô tả như sau:
 - Sau khi boot vào USB, màn hình OpenCore sẽ hiện ra, bạn sẽ thấy các lựa chọn boot (mac/win/linux) và tool (reset nvram, toggle sip) ở đây
   - Chọn `Install macOS <version>` với `<version>` là tên bản mac, VD `Install macOS Monterey`
 
-    ![](/img/docs/installation/install-1.png)
+    ![install-1.png](/img/docs/installation/install-1.png)
 
 - Tiếp theo, là một màn hình toàn chữ chạy (cảm giác như hacker).
   - Và bùm, nháy màn một phát, quả táo cắn dở hiện ra, hãy vui vì bạn đã boot vào được bộ cài, tiếp tục bước tiếp.
@@ -25,24 +25,24 @@ Quá trình cài đặt được mô tả như sau:
 
 - Kế tiếp là màn hình **Tools** xuất hiện, vui lòng chọn **Disk Utility** để tiến hành xoá phân vùng.
 
-    ![](/img/docs/installation/install-2.png)
+    ![install-2.png](/img/docs/installation/install-2.png)
 
 - Trong **Disk Utility**, chọn **View --> Show all Devices**, bước này rất quan trọng.
 
-    ![](/img/docs/installation/install-3.png)
+    ![install-3.png](/img/docs/installation/install-3.png)
 
 - Bây giờ bạn sẽ thấy tên tất cả ổ cứng của bạn hiện ra, kèm theo tên các phân vùng hiển thị ngay dưới tên ổ cứng. Như tôi đã nói trước, có 2 trường hợp, xoá phân vùng và xoá nguyên ổ cứng.
   - Nếu xoá nguyên ổ cứng để cài mac, chọn tên ổ cứng rồi chọn **Erase**, Disk Utility sẽ xoá toàn bộ và tạo 2 phân vùng, EFI 200MB và phân vùng còn lại cho mac địng dạng APFS
   - Nếu chỉ xoá phân vùng thì chọn đúng phân vùng đã chuẩn bị rồi chọn **Erase**, chỉ phân vùng này sẽ bị xoá qua định dạng APFS
   
-    ![](/img/docs/installation/install-4.png)
+    ![install-4.png](/img/docs/installation/install-4.png)
 
 - Hộp thoại **Erase** hiện ra, chọn thông số chọn như sau và bấm nút **Erase**:
   - Name: Tự đặt, tôi hay đặt là **MAC** hoặc **Macintosh HD**
   - Format: **APFS**
   - Scheme: **GUID Partition Map**
 
-    ![](/img/docs/installation/install-5.png)
+    ![install-5.png](/img/docs/installation/install-5.png)
 
 - Sau khi xoá xong bấm **Done** và đóng cửa sổ lại (nút màu đỏ), quay lại màn hình **Tools**
   - Chọn **Install macOS Monterey** (dòng 2) -> Continue
@@ -64,5 +64,4 @@ Quá trình cài đặt được mô tả như sau:
 
 - Sau cùng màn hình Desktop macOS đẹp mộng mơ hiện ra! Chúc mừng bạn đã đi được đoạn đường dài, và chuẩn bị tinh thần chinh chiến fix lỗi tiếp!
 
-    ![](/img/docs/installation/install-6.png)
-
+    ![install-6.png](/img/docs/installation/install-6.png)

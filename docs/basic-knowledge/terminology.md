@@ -3,14 +3,16 @@ title: Kiến thức cần phải biết
 ---
 
 :::info
+
 + Do có nhiều từ ngữ chuyên ngành, không dịch ra được tiếng việt hoặc dịch ra nó ngu nên sẽ để nguyên tiếng anh, việc dùng tiếng việt kèm theo một vài từ tiếng anh ở đây là bất khả kháng không phải là tôi muốn cho ngầu!
 + Có nhiều kiên thức khó có thể tóm tắt được nên tôi sẽ dùng link của một bài viết khác để thay thế!
 :::
 
 ## Lý do cần phải biết những thuật ngữ này
+
 1. Để hiểu **nó là gì?**
 2. Có thể trao đổi với người khác một cách nhanh chóng
-    - Giả sử người khác chỉ cách xử lý lỗi cho bạn, họ đề cập một vài từ tiếng anh và bạn chả biết nó gì xong bạn đi hỏi người ta, khả năng cao là họ sẽ lười giải thích cho bạn vì đơn giản điều đó làm mất thời gian
+    + Giả sử người khác chỉ cách xử lý lỗi cho bạn, họ đề cập một vài từ tiếng anh và bạn chả biết nó gì xong bạn đi hỏi người ta, khả năng cao là họ sẽ lười giải thích cho bạn vì đơn giản điều đó làm mất thời gian
 
 ## Các thuật ngữ cơ bản
 

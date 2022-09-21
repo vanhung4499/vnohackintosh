@@ -5,9 +5,9 @@ title: OpenCore cơ bản
 
 ## Cấu trúc OpenCore
 
-Link repository OpenCore: https://github.com/acidanthera/OpenCorePkg
+Link repository OpenCore: [https://github.com/acidanthera/OpenCorePkg](https://github.com/acidanthera/OpenCorePkg)
 
-Link tải xuống các phiên bản: https://github.com/acidanthera/OpenCorePkg/releases
+Link tải xuống các phiên bản: [https://github.com/acidanthera/OpenCorePkg/releases](https://github.com/acidanthera/OpenCorePkg/releases)
 
 Sau khi tải và giải nén file OpenCore ta được như sau:
 
@@ -33,7 +33,7 @@ tree
 │   └── Source           # ACPI nguồn, chưa biên dịch
 │       ├── SSDT-ALS0.dsl
 │       ├── SSDT-AWAC-DISABLE.dsl
-│     	...
+│      ...
 ├── Changelog.md         # Tổng hợp các thay đổi qua nhiều bản
 ├── Configuration.pdf    # Tài liệu cấu hình của phiên bản hiện tại
 ├── Differences.pdf      # Thay đổi so với bản cũ gần nhất
@@ -47,9 +47,9 @@ Các file trong Docs tương đối dễ hiểu, ngoại trừ việc dường n
 
 Có rất nhiều tool ở đây nhưng thực tế tôi không hề động vào chúng, cá nhân tôi thấy không cần thiết phải liệt kê hết chúng, bạn chỉ cần biết một vài tool có thể hữu ích sau:
 
-- **icnspack** ：tạo các icon icns dùng trong theme OC, nếu bạn muốn tự tạo theme thì chắc bạn sẽ cần tới nó 
-- **macrecovery** ：tải xuống recovery macOS, dùng khi tạo bộ cài Online
-- **ocvalidate** : Kiểm tra config.list có tương thích với phiên bản không, hiển thi các lỗi để chỉnh sửa
++ **icnspack** ：tạo các icon icns dùng trong theme OC, nếu bạn muốn tự tạo theme thì chắc bạn sẽ cần tới nó
++ **macrecovery** ：tải xuống recovery macOS, dùng khi tạo bộ cài Online
++ **ocvalidate** : Kiểm tra config.list có tương thích với phiên bản không, hiển thi các lỗi để chỉnh sửa
 
 ## EFI
 
@@ -65,7 +65,7 @@ tree
 ├── BOOT                          # Thư mục Boostrap
 │   └── BOOTx64.efi               # File khởi động
 └── OC                            # OC 
-    ├── ACPI			          # ACPI 
+    ├── ACPI             # ACPI 
     │   ├── SSDT-EC.aml
     │   ├── SSDT-PLUG.aml
     │   │── SSDT-PNLF.aml
@@ -94,6 +94,7 @@ tree
 ```
 
 ### BOOT
+
 Thư mục khởi động BOOT, trong đó là file bootstrap BOOTx64.efi
 
 :::info
@@ -112,10 +113,9 @@ Có rất nhiều file driver ở đây, đuôi .efi, nhưng thật sự không 
 + **OpenRuntime.efi** : Driver core của OC với các chức năng mạnh mẽ, chỉ cần biết rằng đây là driver bắt buộc phải có phải có
 + **HfsPlus.efi** : Tương tự như OpenHfsPlus.efi nhưng không được cung cấp mặc định trong OC, tải xuống từ [OcBinaryData](https://github.com/acidanthera/OcBinaryData), nằm trong thư mục Drivers của repos, tôi hay dùng driver này thay cho OpenHfsPlus.efi, lưu ý **chỉ dùng 1 trong 2**
 
-
-
 :::info
 Ngoài ra một số driver sau bạn cũng nên biết để làm màu cho màn hình khởi động OC:
+
 + **AudioDxe.efi** : Phát âm thanh của OpenCore khi nó khởi động (làm màu, không quan trọng)
 + **CrScreenshotDxe.efi** : Chụp ảnh chụp màn hình khởi động OC, nhấn F10 sẽ lưu ảnh chụp màn hình vào thư mục gốc của phân vùng EFI
 + **OpenCanopy.efi** : Trình điều khiển cần thiết để sử dụng các chủ đề OC đồ họa
@@ -148,4 +148,3 @@ Bạn sẽ chép file **Sample.plist** trong thư mục Docs tới EFI/OC và đ
 Đây là file chứa thông tin cấu hình của OpenCore, OC sẽ dự trên nó mà chạy. Hiểu đơn giản là nó cấu hình OC, nên bật chức năng nào, nên tắt chức năng nào, sửa dữ liệu thế nào, nạp kext nào, driver nào, ...
 
 Nhiệm vụ chỉnh sửa config này sẽ khá dài, vui lòng đọc tiếp các phần sau.
-
