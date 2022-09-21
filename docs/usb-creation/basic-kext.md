@@ -4,7 +4,7 @@ title: Tìm hiểu về kext
 
 ## Khái niệm cơ bản
 
-Kext viết tắt của là **K**ernel **Ext**ension là phần mở rộng của kernel, chúng ta có thể hiểu một cách đơn giản đây là driver của macOS. Với OC, để sử dụng bạn cần cho các file kext này vào thư mục **EFI/OC/Kexts** rồi chỉnh sửa config OC, còn với Clover thì cần cho vào thư mục **EFI/Clover/kexts/Other**.
+Kext là viết tắt của **K**ernel **Ext**ension, nó là phần mở rộng của kernel, chúng ta có thể hiểu một cách đơn giản đây là driver của macOS. Với OC, để sử dụng bạn cần cho các file kext này vào thư mục **EFI/OC/Kexts** rồi chỉnh sửa config OC, còn với Clover thì cần cho vào thư mục **EFI/Clover/kexts/Other**.
 
 ## Tải xuống Kext
 

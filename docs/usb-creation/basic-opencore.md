@@ -5,7 +5,7 @@ title: OpenCore cơ bản
 
 ## Cấu trúc OpenCore
 
-Link repos OpenCore: https://github.com/acidanthera/OpenCorePkg
+Link repository OpenCore: https://github.com/acidanthera/OpenCorePkg
 
 Link tải xuống các phiên bản: https://github.com/acidanthera/OpenCorePkg/releases
 

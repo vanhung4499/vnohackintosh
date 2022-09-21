@@ -3,7 +3,7 @@ title: Kiểm tra cấu hình
 ---
 
 :::tip
-Nếu bạn gặp lỗi và muốn hỏi người khác thì phải cung cấp cấu hình máy cơ bản để tránh mất thời gian của họ, còn mà gửi nguyên cái file cấu hình máy bắt họ tải thì cũng không hay lắm!
+Nếu bạn gặp lỗi và muốn hỏi người khác thì phải cung cấp cấu hình máy cơ bản để tránh mất thời gian của họ, nếu gửi nguyên cái file cấu hình máy bắt họ tải thì cũng không hay lắm!
 :::
 
 ## Chuẩn bị

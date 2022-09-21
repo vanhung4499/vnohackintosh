@@ -34,5 +34,5 @@ Tôi sẽ xem xét theo một số tiêu chí nhất định
 + Clover ăn đứt OpenCore, tôi không khuyến khích boot Windows hay Linux qua OpenCore
 
 :::danger
-Nếu bạn dùng laptop Thinkpad, không nên dùng Reset NVRAM trong OpenCore nếu không muốn đi sửa máy sớm, hãy ưu tiên dùng Clover!
+Nếu bạn dùng laptop **Thinkpad**, không nên dùng Reset NVRAM trong OpenCore nếu không muốn đi sửa máy sớm, hãy ưu tiên dùng Clover!
 :::

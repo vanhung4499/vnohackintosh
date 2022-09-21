@@ -3,7 +3,7 @@ title: Chuẩn bị file cần thiết
 ---
 
 :::info
-+ Bài viết này bao gồm danh sách file hackintosh bạn cần chuẩn bị.
++ Bài viết này bao gồm danh sách file để hackintosh mà bạn sẽ cần chuẩn bị.
 + Bạn cần phải hiểu công dụng của chúng!
 + Tuỳ thuộc vào cấu hình máy của bạn mà chọn file chứ không phải tải tất cả.
 :::
@@ -44,7 +44,7 @@ Hướng dẫn này không hỗ trợ các bản macOS 10.12 trở về trước
 | OpenRuntime.efi      | EFI/Drivers/                                                                                  | EFI/Clover/Drivers/Off/UEFI/MemoryFix | Patch boot.efi sửa lỗi NVRAM và quản lý bộ nhớ                             |
 
 ## Kexts
-Kext viết tắt của **k**ernel **ext**ension, bạn có thể hiểu nó tương tự như driver trong Windows.
+Kext là viết tắt của **K**ernel **ext**ension, bạn có thể hiểu nó tương tự như driver trong Windows.
 
 ### Bắt buộc phải có
 
@@ -205,5 +205,5 @@ Nếu bạn muốn tìm hiểu thêm về kext vui lòng xem danh sách [Kexts.m
 
 ## Configs
 
-Config.plist là file cấu hình tất cả các chức năng của Bootloader (OC và Clover). Chỉnh sửa một file config là phần rất quan trọng và rất dài nên sẽ viết thành một phần riêng. Vui lòng đọc các phần sau!
+Config.plist là file cấu hình tất cả các chức năng của Bootloader (OC và Clover). Chỉnh sửa một file config là phần rất quan trọng và phức tạp nên mình sẽ viết thành một phần riêng. Vui lòng đọc các phần sau!
 

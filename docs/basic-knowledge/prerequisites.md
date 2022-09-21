@@ -13,9 +13,9 @@ title: Yêu cầu cơ bản
   + Hackintosh sẽ có thể lỗi, những lỗi này đa số không ảnh hưởng quá lớn đến công việc của bạn, quan trọng là bạn có chấp nhận được điều đó hay không
 
 3. **:copyright: Vấn đề bản quyền**
-  + Đây là vấn đề khá nhạy cảm, đối với Apple, máy hackintosh là bất hợp pháp
+  + Đây là vấn đề khá nhạy cảm. Đối với Apple, máy hackintosh là bất hợp pháp
   + Nếu bạn dùng mục đích cá nhân, Apple chả kiện bạn đâu đừng lo
-  + Nếu bạn dùng cho mục đích thương mại, ví dụ như cử hàng bán máy hackintosh công khai, nếu bị Apple kiện thì xác định có chuyện
+  + Tuyệt đối không hackintosh cho mục đích thương mại. Ví dụ như cửa hàng bán máy hackintosh sẵn công khai, nếu bị Apple phát hiện và kiện thì xác định có chuyện (Đã từng có đơn vị bị kiện về vấn đề này, để biết thêm thông tin chi tiết bạn hãy tìm google)
 
 4. **:desktop_computer: Nắm được cấu hình máy của bạn**
   + Phải biết cấu hình máy của bạn để biết nó có thể hackintosh hay không?
@@ -24,8 +24,8 @@ title: Yêu cầu cơ bản
   + Tôi không chịu trách nhiệm cho dữ liệu của bạn nếu xảy ra mất mát!
 
 6. **:floppy_disk: USB hoặc HDD/SSD rời**
-  + Dung lượng ít nhất 16GB
-  + Đúng là có cách cài không cần USB nhưng đừng phức tạp hoá vấn đề lên
+  + Dung lượng ít nhất 16GB.
+  + Đúng là có cách cài không cần USB nhưng đừng phức tạp hoá vấn đề lên.
 
 7. **:cd:	Biết cài Windows UEFI**
   + Quá trình hackintosh có thể làm mất Windows nếu không cẩn thận, bạn sẽ phải cài lại nếu không mang ra tiệm 100k -> 200k!

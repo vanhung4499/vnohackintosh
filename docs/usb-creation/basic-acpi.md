@@ -10,7 +10,7 @@ Bài viết này chỉ nói sơ qua về ACPI để chọn đủ các SSDT phù 
 
 ### ACPI
 
-**ACPI** là viết tắt của **Advanced Configuration and Power Interface**, dịch ra tiếng việt là **Cấu hình nâng cao và Giao diện nguồn** do Intel, Microsoft và Toshiba cùng đề xuất và xây dựng vào năm 1997, sau đó có thêm HP, Huawei và Phoenix tham gia. ACPI xác định giao diện giữa phần mềm hệ thống BIOS hoặc UEFI và hệ điều hành, giao diện trừu tượng hóa phần cứng.
+**ACPI** là viết tắt của **Advanced Configuration and Power Interface**, dịch ra tiếng việt là **Cấu hình nâng cao** và **Giao diện nguồn** do Intel, Microsoft và Toshiba cùng đề xuất và xây dựng vào năm 1997, sau đó có thêm HP, Huawei và Phoenix tham gia. ACPI xác định giao diện giữa phần mềm hệ thống BIOS hoặc UEFI và hệ điều hành, giao diện trừu tượng hóa phần cứng.
 
 Nó giúp hệ điều hành kiểm soát và phân phối hợp lý sức mạnh của các thiết bị phần cứng máy tính. Với ACPI, hệ điều hành có thể tắt các thiết bị phần cứng khác nhau khi cần theo tình hình thực tế của thiết bị.
 
@@ -27,7 +27,7 @@ Các tính năng chính của nó bao gồm:
 9. Embedded Controller
 10. SMBus Controller
 
-ACPI gồm nhiều bảng, mỗi bảng là một file đuôi .aml, bao gồm: RSDP, SDTH, RSDT, FADT, FACS, **DSDT**, **SSDT**, MADT, SBST, XSDT, ECDT, SLIT, SRAT. Trong số đó, DSDT là bảng mô tả quan trọng nhất.
+ACPI gồm nhiều bảng, mỗi bảng là một file đuôi .aml, bao gồm: RSDP, SDTH, RSDT, FADT, FACS, **DSDT**, **SSDT**, MADT, SBST, XSDT, ECDT, SLIT, SRAT. Trong số đó, **DSDT** là bảng mô tả quan trọng nhất.
 
 Dưới đây là nguyên bộ ACPI của mainboard Z390 Aorus Pro được dump bằng Clover
 ![acpi-origin](../../static/img/docs/usb-creation/acpi-origin.png)
