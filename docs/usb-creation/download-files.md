@@ -32,7 +32,7 @@ Hướng dẫn này không hỗ trợ các bản macOS 10.12 trở về trước
 + Chúng cần phải có để phục vụ cho các chức năng của bootloader ví dụ như HFSPlus.efi để bootloader có thể đọc được phân vùng định dạng HFS.
 + Những driver chính đã có sẵn trong file bootloader ở trên, vị trí của chúng:
   + OC: **EFI/OC/Drivers/**
-    + Clover: **EFI/Clover/Drivers/Off**
+  + Clover: **EFI/Clover/Drivers/Off**
 
 ### Universal
 
