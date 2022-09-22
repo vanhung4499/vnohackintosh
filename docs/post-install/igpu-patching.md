@@ -124,7 +124,7 @@ Ngoài ra muốn tăng VRAM của GPU trong `About This Mac` lên `2048 MB` thì
 
 ![](/img/docs/post-install/atm-vram.png)
 
-Lưu ý việc tăng VRAM lên thực chất là **comestic** (làm màu) không có tác dụng gì tăng hiệu năng lên gì cả đâu!
+Lưu ý việc tăng VRAM lên thực chất là **comestic** (làm màu) không có tác dụng gì, không tăng hiệu năng lên gì cả đâu!
 :::
 
 ## Patch connection
