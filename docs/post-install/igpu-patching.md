@@ -45,7 +45,7 @@ Những card như AMD RX, hay một số NVDIA Kelper không cần tiêm gì cũ
 :::info
 Bạn sẽ phải thắc mắc là trong cái danh sách framebuffer, dev họ viết `ig-platform-id` như sau `0x3E9B0007` nhưng trong phần Device Properties tôi lại viết `AAPL,ig-platform-id` là `07009B3E`, bạn sẽ thấy nó ngược ngược!
 
-Xin trả lời là dữ liệu truyền vào theo Device Properties hoặc trong các SSDT/DSDT đều sẽ phải theo dạng **Little Edidan**. Nếu bạn học chuyên ngành máy tính sẽ gặp khái niệm này hoặc đọc thêm bài viết tiếng việt sau để hiểu hơn: [**Little endian vs. Big endian**](https://manhhomienbienthuy.github.io/2018/09/20/little-endian-vs-big-endian.html).
+Xin trả lời là dữ liệu truyền vào theo Device Properties hoặc trong các SSDT/DSDT đều sẽ phải theo dạng **Little Endian**. Nếu bạn học chuyên ngành máy tính sẽ gặp khái niệm này hoặc đọc thêm bài viết tiếng việt sau để hiểu hơn: [**Little endian vs. Big endian**](https://manhhomienbienthuy.github.io/2018/09/20/little-endian-vs-big-endian.html).
 
 Giải thích đơn giản hơn:
 - Từ 4 byte `3E9B0007` tách 4 cặp 1 byte -> `3E 9B 00 07` (1 byte = 8 bit, biểu diễn `00` -> `FF`)
