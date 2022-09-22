@@ -4,7 +4,7 @@ title: Tìm hiểu về kext
 
 ## Khái niệm cơ bản
 
-Kext viết tắt của là **K**ernel **Ext**ension là phần mở rộng của kernel, chúng ta có thể hiểu một cách đơn giản đây là driver của macOS. Với OC, để sử dụng bạn cần cho các file kext này vào thư mục **EFI/OC/Kexts** rồi chỉnh sửa config OC, còn với Clover thì cần cho vào thư mục **EFI/Clover/kexts/Other**.
+Kext là viết tắt của **K**ernel **Ext**ension, nó là phần mở rộng của kernel, chúng ta có thể hiểu một cách đơn giản đây là driver của macOS. Với OC, để sử dụng bạn cần cho các file kext này vào thư mục **EFI/OC/Kexts** rồi chỉnh sửa config OC, còn với Clover thì cần cho vào thư mục **EFI/Clover/kexts/Other**.
 
 ## Tải xuống Kext
 
@@ -34,18 +34,18 @@ Bạn nên sử dụng cách đầu tiên, vì tải từ chính chủ nó vẫn
 
 Khi bạn tải xuống kext VirtualSMC, sau khỉ giản nén bạn sẽ thấy rằng có những kext khác trong đó. Những kexts khác này là plugin của VirtualSMC, chúng không cần thiết cho quá trình cài đặt macOS. Liệt kê chức năng của các plugin này:
 
-+ **SMCProcessor.kext**
-  - Dùng để theo dõi nhiệt độ CPU, 
+- **SMCProcessor.kext**
+  - Dùng để theo dõi nhiệt độ CPU,
   - Không hoạt động với CPU AMD
-+ **SMCSuperIO.kext**
+- **SMCSuperIO.kext**
   - Được sử dụng để theo dõi tốc độ của quạt
   - không hoạt động với CPU AMD
-+ **SMCLightSensor.kext**
+- **SMCLightSensor.kext**
   - Dùng cho laptop, để sử dụng với cảm biến ánh sáng xung quanh
   - Hầu hết laptop đều không có cảm biến này nên dù có sử dụng thì nó cũng chỉ là fake device.
-+ **SMCBatteryManager.kext**
+- **SMCBatteryManager.kext**
   - Dành cho cho laptop, được sử dụng để đọc và hiển thị chính xác dung lượng pin
-+ **SMCDellSensors.kext**
+- **SMCDellSensors.kext**
   - Dành cho một số máy Dell, kể cả laptop lẫn PC
   - Cho phép theo dõi và điều chỉnh tốc độ quạt trên máy Dell hỗ trợ System Management Mode(SMM)
 
@@ -74,30 +74,30 @@ Khi bạn tải xuống kext VirtualSMC, sau khỉ giản nén bạn sẽ thấy
 
 Tuỳ vào cấu hình máy bạn, chọn kext phù hợp với card Ethernet trong máy
 
-+ [**AtherosE2200Ethernet**](https://github.com/Mieze/AtherosE2200Ethernet/releases)
+- [**AtherosE2200Ethernet**](https://github.com/Mieze/AtherosE2200Ethernet/releases)
   - Cần thiết cho Atheros Qualcomm và Killer NICs
   - Lưu ý: Atheros Killer E2500 thực sự dựa trên Realtek, vì vậy hãy sử dụng trình điều khiển RealtekRTL8111
-+ [**IntelMausi**](https://github.com/acidanthera/IntelMausi/releases)
+- [**IntelMausi**](https://github.com/acidanthera/IntelMausi/releases)
   - Dành cho Intel NICs
   - Chính thức hỗ trợ các NIC 82578, 82579, I217, I218 và I219 của Intel
   - Các NIC dựa trên chipset I211 cần sử dụng kext SmallTreeIntel82576
-+ [**SmallTreeIntel82576**](https://github.com/khronokernel/SmallTree-I211-AT-patch/releases)
+- [**SmallTreeIntel82576**](https://github.com/khronokernel/SmallTree-I211-AT-patch/releases)
   - Dùng cho Intel I211 NICs
-  - Cần thiết cho hầu hết các mainboard AMD có NIC Intel I211 
-+ [**RealtekRTL8111**](https://github.com/Mieze/RTL8111_driver_for_OS_X/releases)
+  - Cần thiết cho hầu hết các mainboard AMD có NIC Intel I211
+- [**RealtekRTL8111**](https://github.com/Mieze/RTL8111_driver_for_OS_X/releases)
   - Dành cho Realtek Gigabit Ethernet
   - Lưu ý: Đôi khi phiên bản kext mới nhất có thể không hoạt động bình thường, bạn có thể thử phiên bản cũ hơn vào lúc này.
-+ [**RealtekRTL8100**](https://www.insanelymac.com/forum/files/file/259-realtekrtl8100-binary/)
-    - Dành cho NIC Realtek's RTL810X Fast Ethernet
-    - Một số mainboard pc và laptop đời cũ sẽ dùng kext này
+- [**RealtekRTL8100**](https://www.insanelymac.com/forum/files/file/259-realtekrtl8100-binary/)
+  - Dành cho NIC Realtek's RTL810X Fast Ethernet
+  - Một số mainboard pc và laptop đời cũ sẽ dùng kext này
 
-+ [**LucyRTL8125Ethernet**](https://www.insanelymac.com/forum/files/file/1004-lucyrtl8125ethernet/)
+- [**LucyRTL8125Ethernet**](https://www.insanelymac.com/forum/files/file/1004-lucyrtl8125ethernet/)
   - Dành cho Realtek 2.5Gb Ethernet
 
-+ **Intel I225-V NIC**
+- **Intel I225-V NIC**
   - Được dùng trên các mainboard Cometlake cao cấp trở về sau
   - Không cần kext nhưng cần phải chỉnh sửa device properties, sẽ đề cập sau
-+ **Intel I350 NIC**
+- **Intel I350 NIC**
   - Xuất hiện trên các mainboard HEDT X79, C602
   - Không cần kext nhưng cần phải chỉnh sửa device properties, sẽ đề cập sau
 
@@ -107,8 +107,8 @@ Tuỳ vào cấu hình máy bạn, chọn kext phù hợp với card Ethernet tr
 Kể từ macOS 11.3.1 trở về sau, việc patch portlimit đã không còn khả dụng dẫn tới xử lý phần USB không còn dễ dàng như trước. Nhưng rất may mắn, USBToolBox ra đời đã giúp xử lý vấn đề map usb trong Windows một cách dẽ dàng. Tôi sẽ nói rõ vấn đề này trong phần sau cài đặt!
 :::
 
-+ [**USBInjectAll**](https://bitbucket.org/RehabMan/os-x-usb-inject-all/downloads/)
-  - Kext dành cho Intel USB do Rehabman phát triển 
+- [**USBInjectAll**](https://bitbucket.org/RehabMan/os-x-usb-inject-all/downloads/)
+  - Kext dành cho Intel USB do Rehabman phát triển
   - Bản 0.7.1 được phát hành vào 11/2018 là phiên bản cuối cùng và nó đã không được cập nhật kể từ đó cho nên nó không tương thích với các mainboard mới với phần cứng USB Hub mới
   - Được sử dụng để inject Intel USB Controller vào macOS trên các mainboard mà không định nghĩa các cổng USB trong ACPI (tôi sẽ giải thích trong phần nâng cao)
   - Mặc dù một số mainbaord PC Skylake trở lên không cần kext này, nhưng nhiều trường hợp mainboard mới hơn lại không thể thiếu nó, tốt nhất bạn vẫn cứ thêm vào
@@ -124,46 +124,46 @@ Kể từ macOS 11.3.1 trở về sau, việc patch portlimit đã không còn k
   </div>
 </details>
 
-+ [**USBInjectAll**](https://github.com/daliansky/OS-X-USB-Inject-All/releases)
+- [**USBInjectAll**](https://github.com/daliansky/OS-X-USB-Inject-All/releases)
   - Là một bản fork repos của Rehabman do daliansky duy trì (cũng là một pro hackintosh từ trung quốc)
   - Vẫn được phát hành thường xuyên, hỗ trợ các mainboard intel 400 500 600 series
 
-+ [XHCI-unsupported](https://github.com/RehabMan/OS-X-USB-Inject-All)
-  - Cần cho non-native USB controllers 
-  - PC AMD CPU không cần 
+- [XHCI-unsupported](https://github.com/RehabMan/OS-X-USB-Inject-All)
+  - Cần cho non-native USB controllers
+  - PC AMD CPU không cần
   - Mainboard chipsets cần phải có kext này: X79, X99, X92,9 H410, B460, H510, B560
 
-+ [USBToolBox](https://github.com/USBToolBox/kext)
+- [USBToolBox](https://github.com/USBToolBox/kext)
   - Kext và tool USB mới, cứu tinh cho hackintosh, dùng trên windows giúp map usb nhanh và tiện
 
 ### WiFi/Bluetooth
 
 #### Intel
 
-+ [AirportItlwm](https://github.com/OpenIntelWireless/itlwm/releases)
+- [AirportItlwm](https://github.com/OpenIntelWireless/itlwm/releases)
   - Hỗ trợ rất nhiều card wifi intel trước kia thì chỉ có thể thay card
-+ [IntelBluetoothFirmware](https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases)
+- [IntelBluetoothFirmware](https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases)
   - Hỗ trợ Bluetooth hoạt động trong macOS nhưng vẫn còn nhiều hạn chế
 
 #### Broadcom
 
-+ [AirportBrcmFixup](https://github.com/acidanthera/AirportBrcmFixup/releases)
+- [AirportBrcmFixup](https://github.com/acidanthera/AirportBrcmFixup/releases)
   - Dùng để patch non-Apple/non-Fenvi Broadcom card như dòng BCM94352
-+ [BrcmPatchRAM](https://github.com/acidanthera/BrcmPatchRAM/releases)
+- [BrcmPatchRAM](https://github.com/acidanthera/BrcmPatchRAM/releases)
   - Dùng để sửa lỗi firmware trên Broadcom Bluetooth, Dùng cho tất cả non-Apple/non-Fenvi Airport card.
 
 ### Extras
 
-+ [AppleMCEReporterDisabler](https://github.com/acidanthera/bugtracker/files/3703498/AppleMCEReporterDisabler.kext.zip)
+- [AppleMCEReporterDisabler](https://github.com/acidanthera/bugtracker/files/3703498/AppleMCEReporterDisabler.kext.zip)
   - Chặn AppleMCEReporter kext gây panic trên hệ thống AMD CPU
   - Tác dụng với SMBIOS: MacPro6,1 MacPro7,1 iMacPro1,1
 
-+ [CpuTscSync](https://github.com/lvs1974/CpuTscSync/releases)
+- [CpuTscSync](https://github.com/lvs1974/CpuTscSync/releases)
   - Cần để đồng bộ TSC trên một số máy HEDT và main server, nếu thiếu thì máy có thể chạy chậm, giật lag
   - Một số laptop Dell và ASUS cũng cần kext này
-+ [NVMeFix](https://github.com/acidanthera/NVMeFix/releases)
+- [NVMeFix](https://github.com/acidanthera/NVMeFix/releases)
   - Sửa lỗi power management cho non-Apple NVMe
-+ [CtlnaAHCIPort](https://github.com/dortania/OpenCore-Install-Guide/blob/master/extra-files/CtlnaAHCIPort.kext.zip)
+- [CtlnaAHCIPort](https://github.com/dortania/OpenCore-Install-Guide/blob/master/extra-files/CtlnaAHCIPort.kext.zip)
   - Hỗ trợ một số SATA controller trên macOS Big Sur trở đi, do những controller đã bị apple bỏ đi, không native nữa
   - Nếu gặp trường hợp không nhận ổ cứng SATA thì phải thêm kext này
 
@@ -177,24 +177,24 @@ Dựa vào phần cứng trackpad có trên máy mà chọn kext phù hợp, kex
 
 #### PS2 Keyboards/Trackpads
 
-+ [VoodooPS2](https://github.com/acidanthera/VoodooPS2/releases)
+- [VoodooPS2](https://github.com/acidanthera/VoodooPS2/releases)
   - Hoạt động với PS2 keyboard, mice, và trackpad
-+ [RehabMan's VoodooPS2](https://bitbucket.org/RehabMan/os-x-voodoo-ps2-controller/downloads/)
+- [RehabMan's VoodooPS2](https://bitbucket.org/RehabMan/os-x-voodoo-ps2-controller/downloads/)
   - Dành cho những máy đã cũ xài PS2 keyboard, mice, and trackpad, thường là intel gen 2/3
 
 #### SMBus Trackpads
 
-+ [VoodooRMI](https://github.com/VoodooSMBus/VoodooRMI/releases/)
-  + Dành cho máy dùng Synaptics SMBus trackpad
-  + Các máy Thinkpad và một số máy HP sẽ cần kext này
-+ [VoodooSMBus](https://github.com/VoodooSMBus/VoodooSMBus/releases)
+- [VoodooRMI](https://github.com/VoodooSMBus/VoodooRMI/releases/)
+  - Dành cho máy dùng Synaptics SMBus trackpad
+  - Các máy Thinkpad và một số máy HP sẽ cần kext này
+- [VoodooSMBus](https://github.com/VoodooSMBus/VoodooSMBus/releases)
   - Dành cho máy dùng ELAN SMBus Trackpad
   - Cụ thể là cho máy T480, T480, L380
 
 #### I2C/USB HID Devices
 
-+ [VoodooI2C](https://github.com/VoodooI2C/VoodooI2C/releases)
-  - Bao gồm VoodooI2C và các plugin dành cho các loại I2C trackpad/touch khác nhau
+- [VoodooI2C](https://github.com/VoodooI2C/VoodooI2C/releases)
+  - Bao gồm VoodooI2C và các plugin dành cho các loại I2C trackpad/touchpad khác nhau
   - Cụ thể về các plugin xem bảng dưới
 
 :::info VoodooI2C Plugins
@@ -212,10 +212,10 @@ Dựa vào phần cứng trackpad có trên máy mà chọn kext phù hợp, kex
 
 ### Laptop Misc
 
-* [ECEnabler](https://github.com/1Revenger1/ECEnabler/releases)
-  * Sửa lỗi hiển thị phần trăm pin trên laptop mà không cần patch acpi
-* [BrightnessKeys](https://github.com/acidanthera/BrightnessKeys/releases)
-  * Sửa lỗi phím tăng giảm độ sáng không hoạt động
+- [ECEnabler](https://github.com/1Revenger1/ECEnabler/releases)
+  - Sửa lỗi hiển thị phần trăm pin trên laptop mà không cần patch acpi
+- [BrightnessKeys](https://github.com/acidanthera/BrightnessKeys/releases)
+  - Sửa lỗi phím tăng giảm độ sáng không hoạt động
 
 :::info
 Nếu bạn muốn tìm hiểu thêm về kext vui lòng xem danh sách [Kexts.md](https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/Kexts.md) này
