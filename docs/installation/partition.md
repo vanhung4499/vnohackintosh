@@ -16,13 +16,13 @@ Tôi đang hướng dẫn bạn cài thêm macOS và giữ nguyên Windows. Theo
 
 ### Cài macOS vào ổ cứng riêng
 
-![](/img/docs/installation/partition-case-1.png)
+![partition-case-1.png](/img/docs/installation/partition-case-1.png)
 
 Trường hợp đơn giản nhất, chả cần làm gì, chỉ cần vào bộ cài mac và xoá nguyên ổ cứng đó cho mac.
 
 ### Cài macOS vào một phân vùng trên ổ cứng không chứa Windows
 
-![](/img/docs/installation/partition-case-2.png)
+![partition-case-2.png](/img/docs/installation/partition-case-2.png)
 
 Trường hợp này khá khó xử lý, vì thường bạn sẽ không có phân vùng EFI (ESP) trên ổ cứng này
 
@@ -30,13 +30,14 @@ Hướng giải quyết là phải chia ra một phân vùng EFI >= 200MB, forma
 
 ### Cài macOS trên cùng ổ cứng chứa Windows
 
-![](/img/docs/installation/partition-case-3.png)
+![partition-case-3.png](/img/docs/installation/partition-case-3.png)
 
 Trường hợp này có vẻ dễ xử lý hơn, nhưng thông thường phân vùng EFI được tạo khi cài Windows thường chỉ là 100MB nhưng để cài macOS thì cần ít nhất 200MB.
 
 Có 2 cách giải quyết:
-  + Tăng kích thước vùng EFI bằng cách xoá phân vùng Recovery và gộp vào (Thông thường Recovery sẽ nằm cạnh EFI)
-  + Tạo một phân vùng EFI mới như trường hợp phía trên
+
++ Tăng kích thước vùng EFI bằng cách xoá phân vùng Recovery và gộp vào (Thông thường Recovery sẽ nằm cạnh EFI)
++ Tạo một phân vùng EFI mới như trường hợp phía trên
 
 Minitool Partition Wizzard xin hân hạnh tài trợ cho giải pháp này!
 

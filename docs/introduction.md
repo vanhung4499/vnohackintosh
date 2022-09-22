@@ -43,4 +43,3 @@ Vui lòng tham gia group facebook [VNOHackintosh](https://www.facebook.com/group
 + [Dortania's OpenCore Install Guide](https://dortania.github.io/OpenCore-Install-Guide/)
 + [Rehabman Laptop Guide](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/)
 + [Olarila Guide](https://www.olarila.com/topic/20908-guide-easy-fast-and-perfect-hackintosh-vanilla-step-by-step-clover-and-opencore-bootloader/)
-

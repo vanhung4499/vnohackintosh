@@ -62,23 +62,23 @@ VD đối với card đồ hoạ onboard, trong DSDT máy mac nó tên là **IGP
 macOS sẽ có yêu cầu một số hiện diện device mà không có hoặc bị tắt đi trong DSDT, vì vậy chúng ta cần khắc phục vấn đề này. Các device cần thiết phải được chỉnh sửa để macOS có thể khởi động động bình thường:
 
 + **Embedded controllers (EC)**
-  - Tất cả các mainboard của Apple đều có device EC trong DSDT, nhưng mà tên của chúng không phải là **EC** mà là **EC0, ECDV, H_EC**. Kể từ macOS Catalina trở đi, yêu cầu cần có một device tên là **EC** thì mới khởi động được.
-  - Có hai cách xử lý, một là rename **EC0** hay **H_EC** thành **EC**, hai là tạo một device giả (fake device) có tên là **EC** (SSDT-EC.aml)
-  - Đối với laptop, embedded controller cần thiết để có thể dùng pin và phím tắt. Việc đổi tên sẽ gây ra sự cố với Windows do OpenCore sẽ nạp ACPI đã sửa còn Clover thì không, do đó thường sử dụng cách thứ hai là giả maọ device.
+  + Tất cả các mainboard của Apple đều có device EC trong DSDT, nhưng mà tên của chúng không phải là **EC** mà là **EC0, ECDV, H_EC**. Kể từ macOS Catalina trở đi, yêu cầu cần có một device tên là **EC** thì mới khởi động được.
+  + Có hai cách xử lý, một là rename **EC0** hay **H_EC** thành **EC**, hai là tạo một device giả (fake device) có tên là **EC** (SSDT-EC.aml)
+  + Đối với laptop, embedded controller cần thiết để có thể dùng pin và phím tắt. Việc đổi tên sẽ gây ra sự cố với Windows do OpenCore sẽ nạp ACPI đã sửa còn Clover thì không, do đó thường sử dụng cách thứ hai là giả maọ device.
 
 + **Plugin type**
-  - Cho phép sử dụng XCPM để cung cấp khả năng quản lý nguồn CPU trên Intel Haswell và các CPU mới hơn, điều này không tương thích với AMD
-  - Hiểu đơn giản là có cái này CPU mới chạy ổn định, nhận đủ xung nhịp, không nhảy xung lên xuống một cách lung tung.
-    
+  + Cho phép sử dụng XCPM để cung cấp khả năng quản lý nguồn CPU trên Intel Haswell và các CPU mới hơn, điều này không tương thích với AMD
+  + Hiểu đơn giản là có cái này CPU mới chạy ổn định, nhận đủ xung nhịp, không nhảy xung lên xuống một cách lung tung.
+
 + **AWAC system clock**
-  - Đây là một thiết bị mới có trên dòng mainboard 3000 series trở đi, nó thay thế cho RTC clock (khi AWAC bật thì RTC tắt). Vấn đề ở đây là macOS nó lại cần RTC chứ không cần AWAC
-  - Vẫn là hai cách, chỉnh sửa code ACPI để bật RTC tắt AWAC (**SSDT-AWAC-DISABLE.aml**), hoặc tạo device giả mạo (**SSDT-RTC0.aml**)
+  + Đây là một thiết bị mới có trên dòng mainboard 3000 series trở đi, nó thay thế cho RTC clock (khi AWAC bật thì RTC tắt). Vấn đề ở đây là macOS nó lại cần RTC chứ không cần AWAC
+  + Vẫn là hai cách, chỉnh sửa code ACPI để bật RTC tắt AWAC (**SSDT-AWAC-DISABLE.aml**), hoặc tạo device giả mạo (**SSDT-RTC0.aml**)
 
 + **NVRAM SSDT**
-  - Dòng main board 300 series (trừ chipset Z370) kể cả pc lẫn laptop sẽ dính lỗi không hỗ trợ ghi NVRAM, cần sửa lỗi này để quá trình bật tắt hay cài đặt macOS diễn ra bình thường (**SSDT-PMC.aml**)
-    
+  + Dòng main board 300 series (trừ chipset Z370) kể cả pc lẫn laptop sẽ dính lỗi không hỗ trợ ghi NVRAM, cần sửa lỗi này để quá trình bật tắt hay cài đặt macOS diễn ra bình thường (**SSDT-PMC.aml**)
+
 + **Backlight**
-  - Sử dụng để sửa lỗi hỗ trợ điều khiển đèn nền (tăng giảm độ sáng màn hình) trên laptop (**SSDT-PNLF.aml**)
+  + Sử dụng để sửa lỗi hỗ trợ điều khiển đèn nền (tăng giảm độ sáng màn hình) trên laptop (**SSDT-PNLF.aml**)
 
 <!--
 + **GPIO SSDT**
@@ -94,6 +94,7 @@ macOS sẽ có yêu cầu một số hiện diện device mà không có hoặc 
 ## Chọn bộ SSDT phù hợp
 
 :::info
+
 + Phần này, tôi sẽ đưa ra danh sách những SSDT cần thiết cho quá trình boot macOS để cài đặt, theo cấu hình máy.
 + SSDT có thể được biên dịch theo cách thủ công hoặc tải xuống các bản đã được biên dịch, nếu không gắn link tức là có sẵn trong file OC đã tải trước đó, path: **OpenCore/Docs/AcpiSamples/Binaries**
 + Tôi sẽ hướng dẫn các bạn chỉnh sửa và biên dịch SSDT trong phần nâng cao.
@@ -103,109 +104,125 @@ Sau khi chọn được bộ SSDT thì bạn chép tất cả chúng vào **EFI/
 
 ### Intel Desktop
 
-#### **SandyBridge, Ivy Bridge**
-  - SSDT-PM.aml
-    - Intel Power Management 
-    - Bạn cần tạo SSDT-PM.aml của riêng mình，lúc cài đặt có thể không cần, tham khảo [Sandy and Ivy Bridge Power Management](/docs/post-install/fixing-power-management) 
-    - Lúc cài đặt chưa có SSDT-PM, cần xoá 2 bảng ACPI sau：**CpuPm**, **Cpu0Ist**. Sau khi cài và tự tạo được SSDT-PM thì ko cần xoá nữa. Sẽ hướng dẫn ở phần chỉnh sửa config.
-  - [SSDT-EC-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-DESKTOP.aml) 
+#### **SandyBridge**, **Ivy Bridge**
 
-#### **Hasewel, Broadwell**
-  - SSDT-PLUG.aml 
-  - [SSDT-EC-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-DESKTOP.aml) 
++ SSDT-PM.aml
+  + Intel Power Management
+  + Bạn cần tạo SSDT-PM.aml của riêng mình，lúc cài đặt có thể không cần, tham khảo [Sandy and Ivy Bridge Power Management](/docs/post-install/fixing-power-management)
+  + Lúc cài đặt chưa có SSDT-PM, cần xoá 2 bảng ACPI sau：**CpuPm**, **Cpu0Ist**. Sau khi cài và tự tạo được SSDT-PM thì ko cần xoá nữa. Sẽ hướng dẫn ở phần chỉnh sửa config.
++ [SSDT-EC-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-DESKTOP.aml)
 
-#### **Skylake, Kaby Lake**
-  - SSDT-PLUG.aml 
-  - [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml) 
+#### **Hasewel**, **Broadwell**
+
++ SSDT-PLUG.aml
++ [SSDT-EC-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-DESKTOP.aml)
+
+#### **Skylake**, **Kaby Lake**
+
++ SSDT-PLUG.aml
++ [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml)
 
 #### **Coffee Lake**
-  - SSDT-PLUG.aml
-  - [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml)
-  - SSDT-AWAC-DISABLE.aml
-  - SSDT-PMC.aml
-    - Sửa lỗi NVRAM cho mainboard chipset H310, B360, B365, H370, Z390 trừ Z370 ra
 
-#### **Comet Lake, Tiger Lake**
-  - SSDT-PLUG.aml
-  - [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml)
-  - SSDT-AWAC-DISABLE.aml
-  - [SSDT-RHUB.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-RHUB.aml)
-    - Một số mainboard OEM có phần ACPI RHUB bị hỏng, cần tắt thiết bị RHUB đi thì macOS mới khởi động được
-    - ASUS Z490 sẽ cần nó, MSI có thể cũng sẽ cần, Gigabyte và ASRock thì không cần
++ SSDT-PLUG.aml
++ [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml)
++ SSDT-AWAC-DISABLE.aml
++ SSDT-PMC.aml
+  + Sửa lỗi NVRAM cho mainboard chipset H310, B360, B365, H370, Z390 trừ Z370 ra
+
+#### **Comet Lake**, **Tiger Lake**
+
++ SSDT-PLUG.aml
++ [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml)
++ SSDT-AWAC-DISABLE.aml
++ [SSDT-RHUB.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-RHUB.aml)
+  + Một số mainboard OEM có phần ACPI RHUB bị hỏng, cần tắt thiết bị RHUB đi thì macOS mới khởi động được
+  + ASUS Z490 sẽ cần nó, MSI có thể cũng sẽ cần, Gigabyte và ASRock thì không cần
 
 ### Intel Laptop
 
 #### **Sany Bridge**, **Ivy Bridge**
-  - SSDT-PM.aml
-    - Intel Power Management 
-    - Bạn cần tạo SSDT-PM.aml của riêng mình，lúc cài đặt có thể không cần, tham khảo [Sandy and Ivy Bridge Power Management](/docs/post-install/fixing-power-management) 
-    - Lúc cài đặt chưa có SSDT-PM, cần xoá 2 bảng ACPI sau：**CpuPm**, **Cpu0Ist**. Sau khi cài và tự tạo được SSDT-PM thì ko cần xoá nữa. Sẽ hướng dẫn ở phần chỉnh sửa config.
-  - [SSDT-EC-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-LAPTOP.aml)
-  - SSDT-PNLF.aml
-  - SSDT-IMEI.aml 
-    -  Sửa lỗi Ivy Bridge CPU đi kèm với mainboard 6 series
-    -  Sửa lỗi Sandy Bridge CPU đi kèm với mainboard 7 series
 
++ SSDT-PM.aml
+  + Intel Power Management
+  + Bạn cần tạo SSDT-PM.aml của riêng mình，lúc cài đặt có thể không cần, tham khảo [Sandy and Ivy Bridge Power Management](/docs/post-install/fixing-power-management)
+  + Lúc cài đặt chưa có SSDT-PM, cần xoá 2 bảng ACPI sau：**CpuPm**, **Cpu0Ist**. Sau khi cài và tự tạo được SSDT-PM thì ko cần xoá nữa. Sẽ hướng dẫn ở phần chỉnh sửa config.
++ [SSDT-EC-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-LAPTOP.aml)
++ SSDT-PNLF.aml
++ SSDT-IMEI.aml
+  + Sửa lỗi Ivy Bridge CPU đi kèm với mainboard 6 series
+  + Sửa lỗi Sandy Bridge CPU đi kèm với mainboard 7 series
 
-#### **Hasewel, Broadwell**
-  - SSDT-PLUG.aml
-  - [SSDT-EC-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-LAPTOP.aml)
+#### **Hasewel**, **Broadwell**
+
++ SSDT-PLUG.aml
++ [SSDT-EC-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-LAPTOP.aml)
 
 #### **Skylake**, **Kaby Lake**, **Kaby Lake - R**
-  - SSDT-PLUG.aml
-  - [SSDT-EC-USBX-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-LAPTOP.aml)
-  - SSDT-PNLF.aml
+
++ SSDT-PLUG.aml
++ [SSDT-EC-USBX-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-LAPTOP.aml)
++ SSDT-PNLF.aml
 
 #### **Coffee Lake**, **Whiskey Lake**
-  - SSDT-PLUG.aml
-  - [SSDT-EC-USBX-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-LAPTOP.aml)
-  - SSDT-PMC.aml
-    - Sửa lỗi NVRAM, do mainboard laptop thường là chipset HM370
-  - SSDT-PNLF.aml
+
++ SSDT-PLUG.aml
++ [SSDT-EC-USBX-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-LAPTOP.aml)
++ SSDT-PMC.aml
+  + Sửa lỗi NVRAM, do mainboard laptop thường là chipset HM370
++ SSDT-PNLF.aml
 
 #### **Comet Lake**
-  - SSDT-PLUG.aml
-  - [SSDT-EC-USBX-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-LAPTOP.aml)
-  - SSDT-PNLF.aml
+
++ SSDT-PLUG.aml
++ [SSDT-EC-USBX-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-LAPTOP.aml)
++ SSDT-PNLF.aml
 
 #### **Ice Lake**
-  - SSDT-PLUG.aml
-  - [SSDT-EC-USBX-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-LAPTOP.aml)
-  - SSDT-PNLF.aml
-  - [SSDT-RHUB.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-RHUB.aml)
-    - Cần sửa lỗi RHUB trên nhiều laptop Icelake
+
++ SSDT-PLUG.aml
++ [SSDT-EC-USBX-LAPTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-LAPTOP.aml)
++ SSDT-PNLF.aml
++ [SSDT-RHUB.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-RHUB.aml)
+  + Cần sửa lỗi RHUB trên nhiều laptop Icelake
   
 ### Intel HEDT
 
 #### **Sandy Bridge-E**, **Ivy Bridge-E**
-  - [SSDT-EC-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-DESKTOP.aml) 
-  - SSDT-UNC.aml
-    - Tắt các thiết bị không sử dụng trong ACPI để đảm bảo IOPCIFamily gây kernel panic
-    - Tất cả các mainboard X99 và hầu hết các mainboard X79 đều yêu cầu SSDT này
-    - Ngoài ra, một số mainboard C602, C612 cũng cần SSDT này
+
++ [SSDT-EC-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-DESKTOP.aml)
++ SSDT-UNC.aml
+  + Tắt các thiết bị không sử dụng trong ACPI để đảm bảo IOPCIFamily gây kernel panic
+  + Tất cả các mainboard X99 và hầu hết các mainboard X79 đều yêu cầu SSDT này
+  + Ngoài ra, một số mainboard C602, C612 cũng cần SSDT này
 
 #### **Haswell-E**, **Broadwell-E**
-  - SSDT-PLUG.aml
-  - [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml) 
-  - [SSDT-RTC0-RANGE-HEDT.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-RTC0-RANGE-HEDT.aml)
-    - Big Sur yêu cầu RTC phải đầy đủ (sẽ giải thích kĩ hơn trong phần ACPI nâng cao)
-  - SSDT-UNC.aml
-    - Tắt các thiết bị không sử dụng trong ACPI để đảm bảo IOPCIFamily gây kernel panic
-    - Tất cả các mainboard X99 và hầu hết các mainboard X79 đều yêu cầu SSDT này
-    - Ngoài ra, một số mainboard C602, C612 cũng cần SSDT này
+
++ SSDT-PLUG.aml
++ [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml)
++ [SSDT-RTC0-RANGE-HEDT.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-RTC0-RANGE-HEDT.aml)
+  + Big Sur yêu cầu RTC phải đầy đủ (sẽ giải thích kĩ hơn trong phần ACPI nâng cao)
++ SSDT-UNC.aml
+  + Tắt các thiết bị không sử dụng trong ACPI để đảm bảo IOPCIFamily gây kernel panic
+  + Tất cả các mainboard X99 và hầu hết các mainboard X79 đều yêu cầu SSDT này
+  + Ngoài ra, một số mainboard C602, C612 cũng cần SSDT này
 
 #### **Skylake-X/W**, **Cascade Lake-X/W**
-  - SSDT-PLUG.aml
-  - [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml) 
-  - [SSDT-RTC0-RANGE-HEDT.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-RTC0-RANGE-HEDT.aml)
-    - Big Sur yêu cầu RTC phải đầy đủ (sẽ giải thích kĩ hơn trong phần ACPI nâng cao)
+
++ SSDT-PLUG.aml
++ [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml)
++ [SSDT-RTC0-RANGE-HEDT.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-RTC0-RANGE-HEDT.aml)
+  + Big Sur yêu cầu RTC phải đầy đủ (sẽ giải thích kĩ hơn trong phần ACPI nâng cao)
 
 ### AMD Desktop
 
 #### **Bulldozer(15h)**, **Jaguar(16h)**
-  - [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml) 
+
++ [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml)
+
 #### **Ryzen**, **Threadripper(17h and 19h)**
-  - [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml) 
-  - [SSDT-CPUR.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-CPUR.aml) 
-    - Dùng cho B550 và A520 sửa lỗi ACPI phần CPU，các mainboard khác không dùng
-    - X570 trở về sau sẽ không cần SSDT này
+
++ [SSDT-EC-USBX-DESKTOP.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-EC-USBX-DESKTOP.aml)
++ [SSDT-CPUR.aml](https://github.com/dortania/Getting-Started-With-ACPI/blob/master/extra-files/compiled/SSDT-CPUR.aml)
+  + Dùng cho B550 và A520 sửa lỗi ACPI phần CPU，các mainboard khác không dùng
+  + X570 trở về sau sẽ không cần SSDT này

@@ -8,7 +8,7 @@ Driver ở đây là driver cho bootloader (OC hoặc Clover), chứ không ph�
 
 ## Driver mặc định của OC
 
-`OC/Drivers` chứa các driver được OC cung cấp. Các driver là file có đuôi <code>.efi</code>，OC mô tả công dụng của chúng như sau：
+`OC/Drivers` chứa các driver được OC cung cấp. Các driver là file có đuôi `.efi`，OC mô tả công dụng của chúng như sau：
 
 - **AudioDxe.efi**：Phát âm thanh khi khởi động, giống như một real mac
 - **CrScreenshotDxe.efi**：Để chụp ảnh màn hình giao diện khởi động, bấm F10 sẽ lưu lại ảnh chụp màn hình vào thư mục EFI
@@ -42,18 +42,18 @@ Và nếu muốn chụp ảnh màn hình thì cần thêm: **CrScreenshotDxe.efi
 
 ### Không dùng theme
 
-![](https://image.3001.net/images/20210918/16319532063208.png) 
+![16319532063208.png](https://image.3001.net/images/20210918/16319532063208.png)
 
 ### Có dùng theme
 
-![](https://image.3001.net/images/20210917/16318842917381.png)
+![16318842917381.png](https://image.3001.net/images/20210917/16318842917381.png)
 
 Một số nguồn để download theme：
 
-- https://github.com/chris1111/My-Simple-OC-Themes
-- https://dortania.github.io/OpenCanopy-Gallery/blackosx.html
-- https://github.com/LuckyCrack/OpenCore-Themes
+- <https://github.com/chris1111/My-Simple-OC-Themes>
+- <https://dortania.github.io/OpenCanopy-Gallery/blackosx.html>
+- <https://github.com/LuckyCrack/OpenCore-Themes>
 
 Chỉnh sửa theme cũng khá đơn giản，chỉ là thay các icon dạng icns，thay background,là có theme mới theo ý：
 
-![](https://image.3001.net/images/20220227/16459585249452.png) 
+![16459585249452.png](https://image.3001.net/images/20220227/16459585249452.png)

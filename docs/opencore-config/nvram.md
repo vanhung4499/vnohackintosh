@@ -6,11 +6,11 @@ title: NVRAM
 Phần NVRAM này sẽ tương tác trưc tiếp với phần cứng NVRAM, thêm xoá các giá trị vào NVRAM. Cơ bản chỉ tập trung vào một số tuỳ chọn, còn lại hãy để mặc định.
 :::
 
-![](/img/docs/opencore-config/xc-nvram.png)
+![xc-nvram.png](/img/docs/opencore-config/xc-nvram.png)
 
 Thường tập trung vào các tuỳ chọn sau:
 
-![](/img/docs/opencore-config/occ-nvram-boot-args.png)
+![occ-nvram-boot-args.png](/img/docs/opencore-config/occ-nvram-boot-args.png)
 
 ## boot-args
 
@@ -65,15 +65,15 @@ Trên macOS Big Sur, nếu như bạn để trống giá trị `prev-lang:kbd` m
 
 ## UIScale
 
-![](/img/docs/opencore-config/occ-nvram-uiscale.png)
+![occ-nvram-uiscale.png](/img/docs/opencore-config/occ-nvram-uiscale.png)
 
-+ Vị trí: `4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14` -> `UIScale`
-+ Ý nghĩa: kích hoạt tính năng gộp điểm ảnh (HiDPI) ở màn hình boot OC
-+ Giá trị: 01 hoặc 02
-  + 01 nghĩa là giữ nguyên độ phân giải
-  + 02 nghĩa là kích hoạt HiDPI, không gian sẽ nhỏ lại, icon và chữ sẽ to ra nhưng nét và đẹp hơn
-    + Nên dùng cho màn hình 4K, hiệu ứng sẽ tốt hơn, còn lại không cần
+- Vị trí: `4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14` -> `UIScale`
+- Ý nghĩa: kích hoạt tính năng gộp điểm ảnh (HiDPI) ở màn hình boot OC
+- Giá trị: 01 hoặc 02
+  - 01 nghĩa là giữ nguyên độ phân giải
+  - 02 nghĩa là kích hoạt HiDPI, không gian sẽ nhỏ lại, icon và chữ sẽ to ra nhưng nét và đẹp hơn
+    - Nên dùng cho màn hình 4K, hiệu ứng sẽ tốt hơn, còn lại không cần
 
 Các phiên bản OC từ 0.8.1 đã chuyển thông số UCScale sang tab "Display Output" trong **UEFI**, để bạn có thể chọn giá trị tương ứng và xoá thuộc tính trong phần NVRAM đi:
 
-![](/img/docs/opencore-config/occ-uefi-output.png)
+![occ-uefi-output.png](/img/docs/opencore-config/occ-uefi-output.png)
