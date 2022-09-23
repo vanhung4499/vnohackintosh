@@ -36,6 +36,11 @@ const config = {
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
+        sitemap: {
+          changefreq: "weekly",
+          priority: 0.5,
+          filename: 'sitemap.xml',
+        },
       }),
     ],
   ],
@@ -43,9 +48,20 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      algolia: {
+        appId: 'BBG9FXDLV1',
+        apiKey: '59245fbc4ae35801d3f1e73c8b2a5cf2',
+        indexName: 'dev_vnohackintosh',
+        contextualSearch: true,
+      },
       announcementBar: {
         id: 'announcementBar', // Increment on change
         content: `⭐️ Nếu bạn không có thời gian tìm hiểu hackintosh, vui lòng tham khảo <strong><a href="/services">dịch vụ</a></strong> của chúng tôi`,
+        isCloseable: false,
+      },
+      colorMode: {
+        defaultMode: 'light',
+        disableSwitch: true,
       },
       navbar: {
         title: "VNOHackintosh",
@@ -63,6 +79,10 @@ const config = {
           { to: "/blog", label: "Blog", position: "left" },
           { to: "/resources", label: "Downloads", position: "left" },
           { to: "/services", label: "Dịch vụ", position: "left" },
+          {
+            type: "search",
+            position: "right",
+          },
           {
             href: "https://github.com/vanhung4499/",
             position: "right",
@@ -116,29 +136,6 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
-      // algolia: {
-      //   // The application ID provided by Algolia
-      //   appId: 'YOUR_APP_ID',
-  
-      //   // Public API key: it is safe to commit it
-      //   apiKey: 'YOUR_SEARCH_API_KEY',
-  
-      //   indexName: 'YOUR_INDEX_NAME',
-  
-      //   // Optional: see doc section below
-      //   contextualSearch: true,
-  
-      //   // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
-      //   externalUrlRegex: 'external\\.com|domain\\.com',
-  
-      //   // Optional: Algolia search parameters
-      //   searchParameters: {},
-  
-      //   // Optional: path for search page that enabled by default (`false` to disable it)
-      //   searchPagePath: 'search',
-  
-      //   //... other Algolia params
-      // },
     }),
 };
 
