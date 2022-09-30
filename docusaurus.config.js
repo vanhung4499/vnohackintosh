@@ -8,7 +8,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const config = {
   title: "VNOHackintosh",
   tagline: "Hackintosh Vietnam",
-  url: "https://vnohackintosh.com",
+  url: "https://vnohackintosh.vercel.app",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
