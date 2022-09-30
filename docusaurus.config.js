@@ -44,15 +44,14 @@ const config = {
       }),
     ],
   ],
-  // themes: ['@docusaurus/theme-search-algolia'],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       algolia: {
         appId: 'BBG9FXDLV1',
-        apiKey: '59245fbc4ae35801d3f1e73c8b2a5cf2',
+        apiKey: '3a82844a779f317a9844f1b8599c5608',
         indexName: 'dev_vnohackintosh',
-        contextualSearch: true,
+        contextualSearch: false,
       },
       announcementBar: {
         id: 'announcementBar', // Increment on change
@@ -61,7 +60,7 @@ const config = {
       },
       colorMode: {
         defaultMode: 'light',
-        disableSwitch: true,
+        disableSwitch: false,
       },
       navbar: {
         title: "VNOHackintosh",
@@ -79,10 +78,10 @@ const config = {
           { to: "/blog", label: "Blog", position: "left" },
           { to: "/resources", label: "Downloads", position: "left" },
           { to: "/services", label: "Dịch vụ", position: "left" },
-          {
-            type: "search",
-            position: "right",
-          },
+          // {
+          //   type: "search",
+          //   position: "right",
+          // },
           {
             href: "https://github.com/vanhung4499/",
             position: "right",
