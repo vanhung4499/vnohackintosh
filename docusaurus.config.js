@@ -49,7 +49,7 @@ const config = {
     ({
       algolia: {
         appId: 'BBG9FXDLV1',
-        apiKey: '3a82844a779f317a9844f1b8599c5608',
+        apiKey: '2d88482494a2574737d603f217a75d68',
         indexName: 'dev_vnohackintosh',
         contextualSearch: false,
       },
