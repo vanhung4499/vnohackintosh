@@ -1,0 +1,60 @@
+---
+title: Backup macOS
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+:::info
+Bài viết này tôi hướng dẫn bạn backup macOS hoặc chuyển nó qua ổ cứng khác!
+:::
+
+:::danger
+Trong Windows có thể dùng một số phần mềm như True Image, R-Drive, ... để tạo các file backup sau đó restore ra ổ cứng! Tôi không khuyến khích dùng cách này để thực hiện backup, điều này có thể có ích cho những người có kinh nghiệm về máy tính nhưng không thích hợp cho người mới!
+:::
+
+Có nhiều phần mềm hỗ trợ backup macOS, tôi chỉ đề cập đến 2 cách mà tôi đã dùng:
+
+## Carbon Copy Cloner
+
+**Carbon Copy Cloner (CCC)** là phần mềm khá nổi tiếng, nó có thể backup cả OS (tức là có thể boot luôn vào vùng đã backup). Cơ chế hoạt động của CCC là copy nguyên phân vùng macOS qua một phân vùng khác được chỉ định, không có nén thành file mà để nguyên phân vùng!
+
+Tải xuống **CCC** từ trang chủ [https://bombich.com/download](https://bombich.com/download)
+
+Hướng dẫn thực hiện:
+
++ Erase phân vùng backup theo format APFS bằng **Disk Utility** trước (xoá phân vùng hay xoá nguyên ổ cứng thì tuỳ bạn):
+
+  ![](/img/docs/post-install/du-backup.png)
+
++ Mở CCC lên, giao diện sử dụng rất đơn giản:
+  + Chọn Source là vùng macOS
+  + Chọn Destination là vùng backup bạn đã chuẩn bị:
+
+  ![](/img/docs/post-install/ccc-main.png)
+
++ Kể từ macOS Big Sur trở lên bạn cần cho phải sử dụng tính năng **Legacy Bootable Backup Assistant**
+  
+  <Tabs>
+    <TabItem value="ccc-1" label="1. Chuột phải " default>
+      <img src="/img/docs/post-install/ccc-1.png" />
+    </TabItem>
+    <TabItem value="ccc-2" label="2. Legacy Bootable">
+      <img src="/img/docs/post-install/ccc-2.png" />
+    </TabItem>
+    <TabItem value="ccc-3" label="3. Allow erase">
+      <img src="/img/docs/post-install/ccc-3.png" />
+    </TabItem>
+  </Tabs>
+
++ Cuối cùng thì chọn **Start** thôi
+
+:::tip
+Bạn có thể copy luôn efi qua ổ cứng mới để dự phòng. Sau chỉ cần boot vào vùng backup và dùng CCC chép ngược macOS trở lại!
+:::
+
+## Time machine
+
+Time machine chủ yếu để backup dữ liệu cũng như phần mềm, không backup OS. 
+
+Tôi không có quá nhiều kinh nghiệm sử dụng Time Machine nên bạn vui lòng đọc bài viết sau từ [hnmac.vn](https://www.hnmac.vn/sao-luu-va-khoi-phuc-du-lieu-cho-macbook-bang-time-machine)

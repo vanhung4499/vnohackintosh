@@ -1,0 +1,56 @@
+---
+title: Update OpenCore, Kext và macOS
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+:::info
+Để update macOS thì bạn nên update opencore và kext lên trước và sửa các lỗi có thể xuất hiện trong bản macOS mới!
+:::
+
+Với **OCAT** thì việc update trở nên cực kì dễ dàng:
+
+## Update EFI với OCAuxiliaryTools (OCAT)
+
+Bắt đầu bằng việc mở file config bằng **OCAT**!
+
+![](/img/docs/post-install/ocat-update.png)
+
+OCAT sẽ quét tất cả các thành phần có trong config và so sánh chúng với những gì đang có trong database. Bạn sẽ cần kiểm tra các kext và OC đã là bản mới nhất chưa rồi chép file mới vào. OCAT sẽ thực hiện tự động tất cả cho bạn với vài cú click chuột như sau:
+
+<Tabs>
+  <TabItem value="kext" label="Update Kext" default>
+    <img src="/img/docs/post-install/ocat-u-k.png" />
+  </TabItem>  
+  <TabItem value="oc" label="Update OC" default>
+    <img src="/img/docs/post-install/ocat-u-oc.png" />
+  </TabItem>
+</Tabs>
+
+![](/img/docs/post-install/ocat-u-done.png)
+
+Sau cùng bạn chỉ cần lưu config lại bằng OCAT để đồng bộ config với phiên bản OC đang được sử đụng! Cực kì nhanh và tiện lợi!
+
+## Update EFI thủ công
+
+Trước kia tôi phải update kiểu này, như cách nói của nó, hoàn toàn thủ công!
+
++ Download OC và các kext phiên bản mới về
+  + OC và các kext sẽ được cập nhật tầm 2 tháng một lần!
++ Chép các file mới vào đúng vị trí của nó:
+  + Cần chép `BOOTx64.efi` và `OpenCore.efi` vào đúng chỗ
+  + Chép kext, driver, tool mới vào vị trí tương ứng trong EFI và ghi đè các file cũ
++ Cuối cùng sửa config bằng **OCC** để đồng bộ với OC bản mới
+
+## Update macOS
+
+Sau khi update efi xong thì chỉ cần vào **System Preferences > Softwre Update** và tiến hành update như máy real mac bình thường!
+
+![](/img/docs/post-install/sp-update.png)
+
+
+:::danger
++ Bạn cần tìm hiểu lỗi có thể xảy ra trên các bản macOS mới trước khi update để chỉnh sửa efi kịp thời! 
++ Đồng thời việc update cũng có rủi ro lỗi, có thể sẽ phải cài lại macOS luôn nên là hãy backup dữ liệu trước (phòng hơn chữa).
+:::
