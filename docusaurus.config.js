@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "VNOHackintosh",
-  tagline: "Hackintosh Vietnam",
+  tagline: "Hackintosh Vietnam 🇻🇳 - Hướng dẫn và dịch vụ",
   url: "https://vnohackintosh.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -63,7 +63,7 @@ const config = {
       // },
       announcementBar: {
         id: "announcementBar", // Increment on change
-        content: `⭐️ Nếu bạn không có thời gian tìm hiểu hackintosh, vui lòng tham khảo <strong><a href="/services">dịch vụ</a></strong> của chúng tôi`,
+        content: `⭐️ Nếu bạn không có thời gian tìm hiểu hackintosh, vui lòng tham khảo <strong><a href="/service">dịch vụ</a></strong> của chúng tôi`,
         isCloseable: false,
       },
       colorMode: {
@@ -88,7 +88,7 @@ const config = {
           { to: "/service", label: "Dịch vụ", position: "left" },
           { to: "/projects", label: "Projects", position: "left" },
           {
-            href: "https://github.com/vanhung4499/",
+            href: "https://github.com/vanhung4499/vnohackintosh",
             position: "right",
             className: "header-github-link",
             "aria-label": "GitHub repository",

@@ -13,7 +13,7 @@ export interface WebsiteCategory {
 
 export const websiteData: WebsiteCategory[] = [
   {
-    name: "Cộng đồng VNOHackintosh",
+    name: "VNOH",
     websites: [
       {
         name: "VNOHackintosh",
