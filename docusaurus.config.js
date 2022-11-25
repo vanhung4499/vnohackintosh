@@ -15,7 +15,6 @@ const config = {
   favicon: "img/favicon.ico",
   organizationName: "vanhung4499", // Usually your GitHub org/user name.
   projectName: "vnohackintosh", // Usually your repo name.
-
   presets: [
     [
       "classic",
@@ -44,16 +43,24 @@ const config = {
       }),
     ],
   ],
-  plugins: ["docusaurus-plugin-image-zoom"],
+  plugins: [
+    "docusaurus-plugin-image-zoom",
+    [
+      require.resolve("@easyops-cn/docusaurus-search-local"),
+      ({
+        hashed: true,
+      })
+    ],
+  ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      algolia: {
-        appId: "BBG9FXDLV1",
-        apiKey: "2d88482494a2574737d603f217a75d68",
-        indexName: "dev_vnohackintosh",
-        contextualSearch: false,
-      },
+      // algolia: {
+      //   appId: "BBG9FXDLV1",
+      //   apiKey: "2d88482494a2574737d603f217a75d68",
+      //   indexName: "dev_vnohackintosh",
+      //   contextualSearch: false,
+      // },
       announcementBar: {
         id: "announcementBar", // Increment on change
         content: `⭐️ Nếu bạn không có thời gian tìm hiểu hackintosh, vui lòng tham khảo <strong><a href="/services">dịch vụ</a></strong> của chúng tôi`,
@@ -138,7 +145,6 @@ const config = {
               },
             ],
           },
-          
           {
             title: "More",
             items: [
