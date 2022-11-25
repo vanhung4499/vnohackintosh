@@ -1,46 +1,48 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './ServicePrice.module.css';
+import React from "react";
+import clsx from "clsx";
+import styles from "./ServicePrice.module.css";
 
 const PriceList = [
   {
-    title: 'BUILD EFI',
-    price: '250k',
-    description: 'Chỉ làm EFI',
+    title: "BUILD EFI",
+    price: "250k",
+    description: "Chỉ làm EFI",
   },
   {
-    title: 'TẠI NHÀ',
-    price: '350k',
-    description: 'Mang máy tới',
-
+    title: "TẠI NHÀ",
+    price: "350k",
+    description: "Mang máy tới",
   },
   {
-    title: 'ONLINE',
-    price: '450k',
-    description: 'Cài đặt Online',
-
+    title: "ONLINE",
+    price: "450k",
+    description: "Cài đặt Online",
   },
   {
-    title: 'TẬN NƠI',
-    price: '550k',
-    description: 'Tới tận nhà',
-
+    title: "TẬN NƠI",
+    price: "550k",
+    description: "Tới tận nhà",
   },
 ];
 
-function PriceCard({title, price, description}) {
+function PriceCard({ title, price, description }) {
   return (
-    <div className={clsx('col col--3')}>
+    <div className={clsx("col col--3")}>
       <div className={clsx("card shadow--md", styles.priceCard)}>
-        <div className="card__header text--center">
+        <div className="card__header text--center text--info">
           <h2>{title}</h2>
         </div>
         <div className="card__body text--center margin-vert--lg">
           <p className={styles.textPrice}>{price}</p>
-          <p className='text--bold'>{description}</p>
+          <p className="text--bold">{description}</p>
         </div>
         <div className="card__footer">
-          <a className="button button--lg button--primary button--block">Đặt lịch ngay!</a>
+          <a
+            href="#request"
+            className="button button--lg button--primary button--block"
+          >
+            Đặt lịch ngay $
+          </a>
         </div>
       </div>
     </div>
@@ -49,7 +51,7 @@ function PriceCard({title, price, description}) {
 
 export default function ServicePrice() {
   return (
-    <section className={clsx(styles.servicePrice, 'margin-vert--lg')}>
+    <section className={clsx(styles.servicePrice, "margin-vert--lg")}>
       <div className="container">
         <div className="row">
           <div className="col text--center margin-bottom--lg">

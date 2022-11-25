@@ -4,7 +4,7 @@ import styles from "./ServiceRequest.module.css";
 
 export default function ServiceRequest() {
   return (
-    <section className={clsx(styles.serviceRequest)}>
+    <section id="request" className={clsx(styles.serviceRequest)}>
       <div className="container">
         <div className="row">
           <div className="col text--center margin-bottom--lg">
@@ -26,7 +26,7 @@ export default function ServiceRequest() {
             >
               Gọi 0377930334 - Hùng
             </a>
-            <div>Thông tin liên lạc ở ngay dưới <span className="badge badge--info">Contact</span>
+            <div>Thông tin liên lạc ở ngay dưới ⇩ <span className="badge badge--info">Contact</span>
 
 </div>
           </div>
