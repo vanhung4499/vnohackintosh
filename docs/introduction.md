@@ -38,8 +38,11 @@ Vào năm 2018, tôi có viết một blog hướng dẫn hackintosh cũng khá 
 
 Vui lòng tham gia group facebook [VNOHackintosh](https://www.facebook.com/groups/vnohackintosh) để trao đổi hoặc tìm kiếm giải pháp cho các vấn đề hackintosh. Team của tôi và những người chơi khác sẽ hỗ trợ bạn trong khả năng. Đương nhiên là việc tham gia một cộng đồng bạn sẽ phải tuân thủ những quy tắc, vui lòng đọc qua nội quy!
 
-## Nguồn tham khảo
-
-+ [Dortania's OpenCore Install Guide](https://dortania.github.io/OpenCore-Install-Guide/)
-+ [Rehabman Laptop Guide](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/)
-+ [Olarila Guide](https://www.olarila.com/topic/20908-guide-easy-fast-and-perfect-hackintosh-vanilla-step-by-step-clover-and-opencore-bootloader/)
+## Credits
+- [Acidanthera](https://github.com/acidanthera) for OpenCore and all the lovely hackintosh work.
+- [Apple](https://apple.com) for macOS
+- [Dortania](https://github.com/dortania)
+- [Rehabman](https://github.com/RehabMan)
+- [Olarila](https://www.olarila.com/topic/20908-guide-easy-fast-and-perfect-hackintosh-vanilla-step-by-step-clover-and-opencore-bootloader/)
+- [Daliansky](https://github.com/daliansky)
+- [vnohackintosh](https://vnohackintosh.com)

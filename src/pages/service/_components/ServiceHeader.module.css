@@ -1,0 +1,30 @@
+.heroBanner {
+  height: 450px;
+  background: url("/img/service/slide2.jpg") 50% 50% / cover no-repeat;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heroIntro {
+  color: var(--ifm-color-white);
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroTitle {
+  font-size: 4rem;
+}
+
+.heroSubtitle {
+  font-size: 2rem;
+}
+
+.heroImg {
+  width: 100%;
+  height: 100%;
+  display: grid;
+}

@@ -1,0 +1,12 @@
+.servicePrice {
+  padding: 4em 0;
+}
+
+.priceCard {
+  background-color: var(--ifm-color-secondary-contrast-background);
+}
+
+.textPrice {
+  font-size: 4em;
+  color: var(--ifm-color-danger-dark);
+}

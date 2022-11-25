@@ -4,32 +4,29 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: 'Hướng dẫn dễ hiểu',
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Hướng dẫn này viết lại bằng tiếng Việt và được tổng hợp từ nhiều nguồn uy tín về hackintosh. Chúng tôi tập trung vào sự dễ hiểu để bạn có thể tự hackintosh!
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Cộng đồng hỗ trợ',
     Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Chúng tôi đã có sẵn một nhóm về hackintosh, bạn có thể trao đổi và học hỏi về các vấn đề gặp phải trong quá trình hackintosh, vui lòng tham khảo <code><a href='/links'>Links</a></code>
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Dịch vụ hackintosh',
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Chúng tôi cung cấp dịch vụ hackintosh cho những người không có thời gian tìm hiểu, vui lòng tham khảo <code><a href='/service'>Dịch vụ</a></code>.
       </>
     ),
   },

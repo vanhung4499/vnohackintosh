@@ -8,7 +8,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const config = {
   title: "VNOHackintosh",
   tagline: "Hackintosh Vietnam",
-  url: "https://vnohackintosh.vercel.app",
+  url: "https://vnohackintosh.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -39,27 +39,28 @@ const config = {
         sitemap: {
           changefreq: "weekly",
           priority: 0.5,
-          filename: 'sitemap.xml',
+          filename: "sitemap.xml",
         },
       }),
     ],
   ],
+  plugins: ["docusaurus-plugin-image-zoom"],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       algolia: {
-        appId: 'BBG9FXDLV1',
-        apiKey: '2d88482494a2574737d603f217a75d68',
-        indexName: 'dev_vnohackintosh',
+        appId: "BBG9FXDLV1",
+        apiKey: "2d88482494a2574737d603f217a75d68",
+        indexName: "dev_vnohackintosh",
         contextualSearch: false,
       },
       announcementBar: {
-        id: 'announcementBar', // Increment on change
+        id: "announcementBar", // Increment on change
         content: `⭐️ Nếu bạn không có thời gian tìm hiểu hackintosh, vui lòng tham khảo <strong><a href="/services">dịch vụ</a></strong> của chúng tôi`,
         isCloseable: false,
       },
       colorMode: {
-        defaultMode: 'light',
+        defaultMode: "light",
         disableSwitch: false,
       },
       navbar: {
@@ -76,17 +77,14 @@ const config = {
             label: "Guides",
           },
           { to: "/blog", label: "Blog", position: "left" },
-          { to: "/resources", label: "Downloads", position: "left" },
-          { to: "/services", label: "Dịch vụ", position: "left" },
-          // {
-          //   type: "search",
-          //   position: "right",
-          // },
+          { to: "/links", label: "Links", position: "left" },
+          { to: "/service", label: "Dịch vụ", position: "left" },
+          { to: "/projects", label: "Projects", position: "left" },
           {
             href: "https://github.com/vanhung4499/",
             position: "right",
-            className: 'header-github-link',
-            'aria-label': 'GitHub repository',
+            className: "header-github-link",
+            "aria-label": "GitHub repository",
           },
         ],
       },
@@ -103,6 +101,31 @@ const config = {
             ],
           },
           {
+            title: "Contact",
+            items: [
+              {
+                label: "Facebook",
+                href: "https://www.facebook.com/vanhung4499",
+              },
+              {
+                label: "Zalo",
+                href: "https://zalo.me/0377930334",
+              },
+              {
+                label: "Telegram",
+                href: "https://t.me/0377930334",
+              },
+              {
+                label: "Phone",
+                href: "tel:0377930334",
+              },
+              {
+                label: "Facebook Page",
+                href: "https://www.facebook.com/vnohackintosh",
+              },
+            ],
+          },
+          {
             title: "Community",
             items: [
               {
@@ -115,6 +138,7 @@ const config = {
               },
             ],
           },
+          
           {
             title: "More",
             items: [
@@ -134,6 +158,14 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+      },
+      zoom: {
+        selector: ".markdown :not(em) > img",
+        background: {
+          light: "rgb(255, 255, 255)",
+          dark: "rgb(50, 50, 50)",
+        },
+        config: {},
       },
     }),
 };
